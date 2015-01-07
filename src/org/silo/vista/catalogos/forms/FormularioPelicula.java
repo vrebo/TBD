@@ -104,7 +104,7 @@ public class FormularioPelicula extends javax.swing.JPanel implements Form<Pelic
     // End of variables declaration//GEN-END:variables
 
     private Pelicula data = new Pelicula();
-    
+
     @Override
     public Pelicula getData() {
         data.setTitulo(titulo.getText());
@@ -117,13 +117,13 @@ public class FormularioPelicula extends javax.swing.JPanel implements Form<Pelic
         data.setImagen(imagePanel1.getData());
         return data;
     }
-    
+
     @Override
     public void setData(Pelicula data) {
         this.data = data;
         updateData();
     }
-    
+
     @Override
     public void updateData() {
         id.setText(data.getIdPelicula() + "");
@@ -136,7 +136,7 @@ public class FormularioPelicula extends javax.swing.JPanel implements Form<Pelic
         clasificacion.setSelectedItem(data.getClasificacion());
         imagePanel1.setData(data.getImagen());
     }
-    
+
     @Override
     public void cleanData() {
         id.setText("Generado");
@@ -145,7 +145,9 @@ public class FormularioPelicula extends javax.swing.JPanel implements Form<Pelic
         estelares.setText("");
         duracion.setValue(new Date());
         anioEstreno.setValue(new Date());
-        genero.setSelectedIndex(0);
+        if (genero.getModel().getSize() > 0) {
+            genero.setSelectedIndex(0);
+        }
         clasificacion.setSelectedIndex(0);
         imagePanel1.cleanData();
     }
@@ -153,5 +155,5 @@ public class FormularioPelicula extends javax.swing.JPanel implements Form<Pelic
     public JComboBox getGenero() {
         return genero;
     }
-    
+
 }
