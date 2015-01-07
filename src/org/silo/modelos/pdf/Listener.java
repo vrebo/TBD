@@ -16,11 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.silo.utils.pdf.PDFHelper;
 
-
-/**
- *
- * @author Adrián
- */
 public class Listener extends KeyAdapter implements ActionListener {
 
     private final Panel panel;

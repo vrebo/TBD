@@ -6,7 +6,6 @@
 package org.silo.vista.catalogos;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import org.silo.modelos.bo.CopiaPelicula;

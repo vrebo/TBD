@@ -45,14 +45,27 @@ public class TablaPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTable = new org.jdesktop.swingx.JXTable();
 
-        setMaximumSize(new java.awt.Dimension(420, 300));
-        setMinimumSize(new java.awt.Dimension(420, 200));
-        setPreferredSize(new java.awt.Dimension(420, 200));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setPreferredSize(new java.awt.Dimension(450, 199));
 
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setMinimumSize(null);
+        jScrollPane1.setPreferredSize(null);
         jScrollPane1.setViewportView(jXTable);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 199));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
 

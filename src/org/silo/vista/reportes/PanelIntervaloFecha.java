@@ -5,6 +5,7 @@
  */
 package org.silo.vista.reportes;
 
+import java.util.Calendar;
 import java.util.Date;
 import org.silo.vista.catalogos.forms.Form;
 
@@ -12,13 +13,14 @@ import org.silo.vista.catalogos.forms.Form;
  *
  * @author VREBO
  */
-public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date[]>{
+public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date[]> {
 
     /**
-     * Creates new form PanelIntervaloFecha
+     * Creates new form GeneradorReporteCliente
      */
     public PanelIntervaloFecha() {
         initComponents();
+        _initComponents();
     }
 
     /**
@@ -30,67 +32,91 @@ public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
+        fechaDefault = new javax.swing.JRadioButton();
+        intervalo = new javax.swing.JRadioButton();
+        jPanel1 = new javax.swing.JPanel();
+        fin = new javax.swing.JSpinner();
+        inicio = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        inicio = new javax.swing.JSpinner();
-        fin = new javax.swing.JSpinner();
 
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Intervalo del reporte:"), javax.swing.BorderFactory.createEtchedBorder()));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        fechaDefault.setText("Último mes");
+        add(fechaDefault, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        intervalo.setText("Definir intervalo");
+        intervalo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                intervaloStateChanged(evt);
+            }
+        });
+        add(intervalo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Intervalo del reporte:"), javax.swing.BorderFactory.createEtchedBorder()));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        fin.setModel(new javax.swing.SpinnerDateModel());
+        fin.setEditor(new javax.swing.JSpinner.DateEditor(fin, "dd/MM/yyyy"));
+        jPanel1.add(fin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 80, -1));
+
+        inicio.setModel(new javax.swing.SpinnerDateModel());
+        inicio.setEditor(new javax.swing.JSpinner.DateEditor(inicio, "dd/MM/yyyy"));
+        jPanel1.add(inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 80, -1));
 
         jLabel1.setText("Inicio:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
 
         jLabel2.setText("Fin:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
-        inicio.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_YEAR));
-        inicio.setEditor(new javax.swing.JSpinner.DateEditor(inicio, "dd/MM/yyyy"));
-
-        fin.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_YEAR));
-        fin.setEditor(new javax.swing.JSpinner.DateEditor(fin, "dd/MM/yyyy"));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inicio, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                    .addComponent(fin))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(fin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, 130));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void intervaloStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_intervaloStateChanged
+        // TODO add your handling code here:
+        boolean x = false;
+        if (intervalo.isSelected()) {
+            x = true;
+        }
+        inicio.setEnabled(x);
+        fin.setEnabled(x);
+    }//GEN-LAST:event_intervaloStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup;
+    private javax.swing.JRadioButton fechaDefault;
     private javax.swing.JSpinner fin;
     private javax.swing.JSpinner inicio;
+    private javax.swing.JRadioButton intervalo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
+    private void _initComponents() {
+        fechaDefault.setSelected(true);
+        buttonGroup.add(fechaDefault);
+        buttonGroup.add(intervalo);
+    }
     private Date[] data = new Date[2];
-    
+
     @Override
     public Date[] getData() {
-        data[0] = (Date) inicio.getValue();
-        data[1] = (Date) fin.getValue();
+        if (fechaDefault.isSelected()) {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -1);
+            data[0] = c.getTime();
+            data[1] = new Date();
+            System.out.println("ultimo mes");
+        } else {
+            data[0] = (Date) inicio.getValue();
+            data[1] = (Date) fin.getValue();
+        }
+        System.out.println(data[0]);
+        System.out.println(data[1]);
         return data;
     }
 
@@ -110,9 +136,9 @@ public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date
         inicio.setValue(new Date());
         fin.setValue(new Date());
     }
-    
+
     @Override
-    public void setEnabled(boolean value){
+    public void setEnabled(boolean value) {
         super.setEnabled(value);
         inicio.setEnabled(value);
         fin.setEnabled(value);

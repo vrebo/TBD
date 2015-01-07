@@ -1,15 +1,10 @@
 package org.silo.vista.componentes;
 
-import org.silo.utils.ImageUtils;
-import java.awt.Color;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JSeparator;
-import javax.swing.JToolBar;
 import org.jdesktop.swingx.JXSearchField;
 
-public class SearchToolBar extends JToolBar {
+public class SearchToolBar extends MyToolBar {
 
     private JXSearchField searchField;
     private JButton newEntity;
@@ -42,7 +37,6 @@ public class SearchToolBar extends JToolBar {
     }
     
     private void initComponents() {
-
         searchField = new JXSearchField("Buscar");
         searchField.setSearchMode(JXSearchField.SearchMode.INSTANT);
         searchField.setInstantSearchDelay(100);
@@ -76,30 +70,4 @@ public class SearchToolBar extends JToolBar {
         add(deleteEntity);
         add(updateCatalog);
     }
-
-    protected JButton makeNavigationButton(String imageName,
-            String actionCommand,
-            String toolTipText,
-            String altText) {
-        //Look for the image.
-        String imgLocation = "/images/icons/"
-                + imageName;
-
-        ImageIcon icon = ImageUtils.createImageIcon(imgLocation);
-        //Create and initialize the button.
-        JButton button = new JButton();
-        button.setActionCommand(actionCommand);
-        button.setToolTipText(toolTipText);
-//        button.addActionListener(this);
-
-        if (icon != null) {                      //image found
-            button.setIcon(icon);
-        } else {                                     //no image found
-            button.setText(altText);
-            System.err.println("Resource not found: " + imgLocation);
-        }
-
-        return button;
-    }
-
 }

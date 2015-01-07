@@ -5,7 +5,6 @@
  */
 package org.silo.utils.pdf;
 
-
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -18,7 +17,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,13 +24,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.silo.modelos.pdf.ListenerPDF;
 
 /**
  *
- * @author AdriÃ¡n
+ * @author Adrián
  */
 public class PDFHelper {
 
@@ -55,13 +52,13 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Se aÃ±aden los datos de cajÃ³n
+                //Se añaden los datos de cajón
                 tituloPDF = "REPORTE DE COPIAS DE PELICULAS";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 //Tabla de copias por estado
                 addLineaVacia(parrafo, doc);
-                addParrafo(parrafo, doc, "RelaciÃ³n de copias por estado");
+                addParrafo(parrafo, doc, "Relación de copias por estado");
                 addLineaVacia(parrafo, doc);
                 addLineaVacia(parrafo, doc);
                 PdfPTable tabla = iniciarTablaCopiasEstado(dbh);
@@ -70,7 +67,7 @@ public class PDFHelper {
                 addLineaVacia(parrafo, doc);
                 addLineaVacia(parrafo, doc);
                 //Tabla de copias por formato
-                addParrafo(parrafo, doc, "RelaciÃ³n de copias por formato");
+                addParrafo(parrafo, doc, "Relación de copias por formato");
                 addLineaVacia(parrafo, doc);
                 addLineaVacia(parrafo, doc);
                 tabla = iniciarTablaCopiasFormato(dbh);
@@ -78,7 +75,7 @@ public class PDFHelper {
                 doc.add(tabla);
                 addLineaVacia(parrafo, doc);
                 //Tablas con consultas y datos
-                String[] titulosColumnas = new String[]{"CÃ³digo", "TÃ­tulo", "Formato", "Fecha AdquisiciÃ³n", "Precio"};
+                String[] titulosColumnas = new String[]{"Código", "Título", "Formato", "Fecha Adquisición", "Precio"};
                 //Tabla de copias en stock
                 doc.newPage();
                 parrafo = setDatos(doc, tituloPDF);
@@ -93,10 +90,10 @@ public class PDFHelper {
                 addTitulosCopiasPelicula(tabla, titulosColumnas);
                 addRegistros(columnas, tabla);
                 doc.add(tabla);
-                //Nueva pÃ¡gina
+                //Nueva página
                 //Tabla de copias vendidas
                 doc.newPage();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 addLineaVacia(parrafo, doc);
@@ -110,18 +107,18 @@ public class PDFHelper {
                 addTitulosCopiasPelicula(tabla, titulosColumnas);
                 addRegistros(columnas, tabla);
                 doc.add(tabla);
-                //Nueva pÃ¡gina
+                //Nueva página
                 doc.newPage();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
-                //Tabla de copias daÃ±adas
-                addParrafo(parrafo, doc, "Copias daÃ±adas");
+                //Tabla de copias dañadas
+                addParrafo(parrafo, doc, "Copias dañadas");
                 addLineaVacia(parrafo, doc);
                 tabla = new PdfPTable(5);
                 tabla.setWidthPercentage(100);
                 dbh.crearConexion();
-                columnas = dbh.seleccionarDatosCopiasPeliculas("DAÃ‘ADA");
+                columnas = dbh.seleccionarDatosCopiasPeliculas("DAÑADA");
                 dbh.cerrarConexion();
                 addTitulosCopiasPelicula(tabla, titulosColumnas);
                 addRegistros(columnas, tabla);
@@ -130,7 +127,7 @@ public class PDFHelper {
                 JOptionPane.showMessageDialog(null, "Documento creado");
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Registros vacÃ­os.\nNo se puede crear el documento.");
+                JOptionPane.showMessageDialog(null, "Registros vacíos.\nNo se puede crear el documento.");
             }
         } catch (DocumentException | IOException | SQLException ex) {
             System.out.println(ex + "\n" + ex.getMessage());
@@ -147,12 +144,12 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Se aÃ±aden los datos de cajÃ³n
+                //Se añaden los datos de cajón
                 tituloPDF = "REPORTE MENSUAL DE EMPLEADOS";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 //Tabla de empleados por estado
-                addParrafo(parrafo, doc, "RelaciÃ³n de empleados por estado");
+                addParrafo(parrafo, doc, "Relación de empleados por estado");
                 addLineaVacia(parrafo, doc);
                 PdfPTable tabla = iniciarTablaEmpleadosEstado(fuenteNormal, dbh);
                 doc.add(tabla);
@@ -168,9 +165,9 @@ public class PDFHelper {
                 addTitulosEmpleado(tabla);
                 addRegistros(columnas, tabla);
                 doc.add(tabla);
-                //Nueva pÃ¡gina
+                //Nueva página
                 doc.newPage();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 //Tabla de empleados incapacitados
@@ -184,9 +181,9 @@ public class PDFHelper {
                 addTitulosEmpleado(tabla);
                 addRegistros(columnas, tabla);
                 doc.add(tabla);
-                //Nueva pÃ¡gina
+                //Nueva página
                 doc.newPage();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 //Tabla de empleados despedidos
@@ -220,12 +217,12 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
-                tituloPDF = "REPORTE GENERAL DE PELÃCULAS EN INVENTARIO";
+                //Datos de cajón
+                tituloPDF = "REPORTE GENERAL DE PELÍCULAS EN INVENTARIO";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 //Tabla de peliculas por genero
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por gÃ©nero");
+                addParrafo(parrafo, doc, "Relación de películas por género");
                 addLineaVacia(parrafo, doc);
                 dbh.crearConexion();
                 String[] generos = dbh.select("SELECT genero_nombre\n"
@@ -235,15 +232,15 @@ public class PDFHelper {
                 PdfPTable tabla = iniciarTablaPeliculasGenero(dbh, generos);
                 doc.add(tabla);
                 addLineaVacia(parrafo, doc);
-                //Tabla peliculas por clasificaciÃ³n
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por clasificaciÃ³n");
+                //Tabla peliculas por clasificación
+                addParrafo(parrafo, doc, "Relación de películas por clasificación");
                 addLineaVacia(parrafo, doc);
                 String[] clasificaciones = new String[]{"A", "B", "B15", "C", "D"};
                 tabla = iniciarTablaPeliculasClasificacion(dbh, clasificaciones);
                 doc.add(tabla);
                 addLineaVacia(parrafo, doc);
-                //Tabla de peliculas por aÃ±o
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por aÃ±o de estreno");
+                //Tabla de peliculas por año
+                addParrafo(parrafo, doc, "Relación de películas por año de estreno");
                 addLineaVacia(parrafo, doc);
                 dbh.crearConexion();
                 String[] anios = dbh.select("SELECT extract(year from pelicula_anioestreno)\n"
@@ -299,13 +296,13 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
-                tituloPDF = "REPORTE DE PELÃCULAS EN INVENTARIO POR AÃ‘O DE ESTRENO";
+                //Datos de cajón
+                tituloPDF = "REPORTE DE PELÍCULAS EN INVENTARIO POR AÑO DE ESTRENO";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 addLineaVacia(parrafo, doc);
-                //Tabla de aÃ±os
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por aÃ±o de estreno");
+                //Tabla de años
+                addParrafo(parrafo, doc, "Relación de películas por año de estreno");
                 addLineaVacia(parrafo, doc);
                 dbh.crearConexion();
                 String[] anios = dbh.select("SELECT extract(year from pelicula_anioestreno)\n"
@@ -340,7 +337,7 @@ public class PDFHelper {
                         while (rs.next()) {
                             doc.newPage();
                             parrafo = setDatos(doc, tituloPDF);
-                            parrafo.add("PelÃ­culas de " + anio);
+                            parrafo.add("Películas de " + anio);
                             doc.add(parrafo);
                             parrafo.clear();
                             addLineaVacia(parrafo, doc);
@@ -360,7 +357,7 @@ public class PDFHelper {
                     } else {
                         doc.newPage();
                         parrafo = setDatos(doc, tituloPDF);
-                        parrafo.add("PelÃ­culas de " + anio);
+                        parrafo.add("Películas de " + anio);
                         doc.add(parrafo);
                         parrafo.clear();
                         addLineaVacia(parrafo, doc);
@@ -392,13 +389,13 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
-                tituloPDF = "REPORTE DE PELÃCULAS EN INVENTARIO POR CLASIFICACIÃ“N";
+                //Datos de cajón
+                tituloPDF = "REPORTE DE PELÍCULAS EN INVENTARIO POR CLASIFICACIÓN";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 addLineaVacia(parrafo, doc);
                 //Tabla de clasificaciones
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por clasificaciÃ³n");
+                addParrafo(parrafo, doc, "Relación de películas por clasificación");
                 addLineaVacia(parrafo, doc);
                 String[] clasificaciones = new String[]{"A", "B", "B15", "C", "D"};
                 String[] totales = new String[clasificaciones.length];
@@ -471,13 +468,13 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
-                tituloPDF = "REPORTE DE PELÃCULAS EN INVENTARIO POR GÃ‰NERO";
+                //Datos de cajón
+                tituloPDF = "REPORTE DE PELÍCULAS EN INVENTARIO POR GÉNERO";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
                 addLineaVacia(parrafo, doc);
                 //tabla de totales
-                addParrafo(parrafo, doc, "RelaciÃ³n de pelÃ­culas por gÃ©nero");
+                addParrafo(parrafo, doc, "Relación de películas por género");
                 addLineaVacia(parrafo, doc);
                 dbh.crearConexion();
                 String[] generos = dbh.select("SELECT genero.genero_nombre\n"
@@ -506,7 +503,7 @@ public class PDFHelper {
                         while (rs.next()) {
                             doc.newPage();
                             parrafo = setDatos(doc, tituloPDF);
-                            parrafo.add("PelÃ­culas de  " + genero);
+                            parrafo.add("Películas de  " + genero);
                             doc.add(parrafo);
                             parrafo.clear();
                             addLineaVacia(parrafo, doc);
@@ -526,7 +523,7 @@ public class PDFHelper {
                     } else {
                         doc.newPage();
                         parrafo = setDatos(doc, tituloPDF);
-                        parrafo.add("PelÃ­culas de " + genero);
+                        parrafo.add("Películas de " + genero);
                         doc.add(parrafo);
                         parrafo.clear();
                         addLineaVacia(parrafo, doc);
@@ -558,7 +555,7 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 tituloPDF = "REPORTE MENSUAL DE REGISTRO DE CLIENTES";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
@@ -571,7 +568,10 @@ public class PDFHelper {
                 addParrafo(parrafo, doc, rango);
                 //Tablas
                 dbh.crearConexion();
-                ResultSet rs = dbh.seleccionarDatosRegistroMensualClientes(fecha1, fecha2);
+                System.out.println(fecha1 + "********");
+                System.out.println(fecha2 + "********");
+                ResultSet rs = dbh.
+                        seleccionarDatosRegistroMensualClientes(fechaInicio, fechaFin);
                 PdfPTable tabla;
                 int cont;
                 boolean bandera;
@@ -625,7 +625,7 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 tituloPDF = "REPORTE MENSUAL DE REGISTRO DE EMPLEADOS";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
@@ -638,7 +638,7 @@ public class PDFHelper {
                 addParrafo(parrafo, doc, rango);
                 //Tablas
                 dbh.crearConexion();
-                ResultSet rs = dbh.seleccionarDatosRegistroMensualEmpleados(fecha1, fecha2);
+                ResultSet rs = dbh.seleccionarDatosRegistroMensualEmpleados(fechaInicio, fechaFin);
                 PdfPTable tabla;
                 int cont;
                 boolean bandera;
@@ -692,7 +692,7 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 tituloPDF = "REPORTE MENSUAL DE VENTAS";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
@@ -726,7 +726,7 @@ public class PDFHelper {
                 String[] columnas = dbh.seleccionarDatosVentasMensual(fecha1, fecha2);
                 dbh.cerrarConexion();
                 String[] titulos = new String[]{"Clave de venta", "Fecha",
-                    "AtendiÃ³", "Cliente", "Neto de la venta"};
+                    "Atendió", "Cliente", "Neto de la venta"};
                 addTitulosVentasMensual(tabla, titulos);
                 addRegistros(columnas, tabla);
                 doc.add(tabla);
@@ -751,7 +751,7 @@ public class PDFHelper {
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
-                //Datos de cajÃ³n
+                //Datos de cajón
                 tituloPDF = "REPORTE MENSUAL DE VENTAS POR EMPLEADO";
                 Paragraph parrafo = setDatos(doc, tituloPDF);
                 parrafoNormal(parrafo);
@@ -775,7 +775,7 @@ public class PDFHelper {
                 //Tabla datos
                 tabla = new PdfPTable(4);
                 tabla.setWidthPercentage(100);
-                titulos = new String[]{"CÃ³digo empleado", "Nombre", "Cantidad de ventas", "Neto vendido"};
+                titulos = new String[]{"Código empleado", "Nombre", "Cantidad de ventas", "Neto vendido"};
                 addTitulosVentaMensualEmpleado(tabla, titulos);
                 dbh.crearConexion();
                 String[] ids = dbh.select("select empleado_id\n"
@@ -863,14 +863,14 @@ public class PDFHelper {
     public Paragraph setDatos(Document doc, String nombreReporte) throws
             BadElementException, DocumentException, IOException {
         //Cosillas del logo
-        Image imagenLogo = Image.getInstance("logo.jpg");
+        Image imagenLogo = Image.getInstance("resources/images/Silo2T.png");
         //ancho alto
-        imagenLogo.scaleToFit(60, 120);
-        imagenLogo.setAbsolutePosition(80, doc.getPageSize().getHeight() - 100);
+        imagenLogo.scaleToFit(120, 150);
+        imagenLogo.setAbsolutePosition(100, doc.getPageSize().getHeight() - 100);
         doc.add(imagenLogo);
         //agregar titulo
         Paragraph parrafo = new Paragraph();
-        parrafo.setIndentationLeft(60);
+        parrafo.setIndentationLeft(130);
         parrafo.setSpacingAfter(1);
         final Font fuenteTitulos = FontFactory.getFont("arial", 12, Font.BOLD, BaseColor.BLACK);
         parrafo.setFont(fuenteTitulos);
@@ -968,7 +968,7 @@ public class PDFHelper {
     }
 
     private void addTitulosEmpleado(PdfPTable tabla) {
-        tabla.addCell(new Paragraph("CÃ³digo Empleado", fuenteNormal));
+        tabla.addCell(new Paragraph("Código Empleado", fuenteNormal));
         tabla.addCell(new Paragraph("Nombre", fuenteNormal));
         tabla.addCell(new Paragraph("Horario Trabajo", fuenteNormal));
         tabla.addCell(new Paragraph("Fecha de registro", fuenteNormal));
@@ -1011,10 +1011,10 @@ public class PDFHelper {
                 + "  FROM copia_pelicula\n"
                 + "  WHERE copia_Edo = 'VENDIDA';", true);
         tabla.addCell(new Paragraph(resultado, fuenteNormal));
-        tabla.addCell(new Paragraph("DaÃ±adas", fuenteNormal));
+        tabla.addCell(new Paragraph("Dañadas", fuenteNormal));
         resultado = dbh.select("SELECT count(copia_id)\n"
                 + "  FROM copia_pelicula\n"
-                + "  WHERE copia_Edo = 'DAÃ‘ADA';", true);
+                + "  WHERE copia_Edo = 'DAÑADA';", true);
         dbh.cerrarConexion();
         tabla.addCell(new Paragraph(resultado, fuenteNormal));
         return tabla;
@@ -1049,8 +1049,8 @@ public class PDFHelper {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
         String resultado;
-        tabla.addCell(new Paragraph("GÃ©nero", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Género", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         dbh.crearConexion();
         for (String genero : generos) {
             try {
@@ -1074,8 +1074,8 @@ public class PDFHelper {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
         String resultado;
-        tabla.addCell(new Paragraph("ClasificaciÃ³n", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Clasificación", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         dbh.crearConexion();
         for (String clasificacione : clasificaciones) {
             try {
@@ -1098,8 +1098,8 @@ public class PDFHelper {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
         String resultado;
-        tabla.addCell(new Paragraph("AÃ±o de estreno", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Año de estreno", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         dbh.crearConexion();
         for (String anio : anios) {
             try {
@@ -1123,8 +1123,8 @@ public class PDFHelper {
             PdfPTable tabla = new PdfPTable(2);
             tabla.setWidthPercentage(100);
             StringBuilder sb = new StringBuilder();
-            String[] titulos = new String[]{"ID pelÃ­cula: ", "TÃ­tulo: ", "AÃ±o de estreno: ",
-                "Estelares: ", "Director: ", "ClasificaciÃ³n: ", "GÃ©nero: ", "DuraciÃ³n: ", "Copias disponibles: "};
+            String[] titulos = new String[]{"ID película: ", "Título: ", "Año de estreno: ",
+                "Estelares: ", "Director: ", "Clasificación: ", "Género: ", "Duración: ", "Copias disponibles: "};
             for (int i = 0; i < datos.length; i++) {
                 sb.append(titulos[i]).append(datos[i]).append("\n\n\n");
             }
@@ -1146,7 +1146,7 @@ public class PDFHelper {
             PdfPTable tabla = new PdfPTable(2);
             tabla.setWidthPercentage(100);
             StringBuilder sb = new StringBuilder();
-            String[] titulos = new String[]{"CÃ³digo cliente: ", "Nombre: ", "Edad: ", "Fecha de registro: "};
+            String[] titulos = new String[]{"Código cliente: ", "Nombre: ", "Edad: ", "Fecha de registro: "};
             for (int i = 0; i < datos.length; i++) {
                 sb.append(titulos[i]).append(datos[i]).append("\n");
             }
@@ -1169,7 +1169,7 @@ public class PDFHelper {
             PdfPTable tabla = new PdfPTable(2);
             tabla.setWidthPercentage(100);
             StringBuilder sb = new StringBuilder();
-            String[] titulos = new String[]{"CÃ³digo empleado: ", "Nombre: ", "Edad: ",
+            String[] titulos = new String[]{"Código empleado: ", "Nombre: ", "Edad: ",
                 "Fecha de registro: ", "Horario de trabajo: ", "Sueldo: "};
             for (int i = 0; i < datos.length; i++) {
                 sb.append(titulos[i]).append(datos[i]).append("\n");
@@ -1191,8 +1191,8 @@ public class PDFHelper {
     private PdfPTable iniciarTablaPeliculasAnio(String[] anios, String[] totales, Font fuenteNormal) {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
-        tabla.addCell(new Paragraph("AÃ±o de estreno", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Año de estreno", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         for (int i = 0; i < anios.length; i++) {
             tabla.addCell(new Paragraph(anios[i], fuenteNormal));
             tabla.addCell(new Paragraph(totales[i], fuenteNormal));
@@ -1203,8 +1203,8 @@ public class PDFHelper {
     private PdfPTable iniciarTablaPeliculasClasificaciones(String[] clasificaiones, String[] totales, Font fuenteNormal) {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
-        tabla.addCell(new Paragraph("ClasificaciÃ³n", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Clasificación", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         for (int i = 0; i < clasificaiones.length; i++) {
             tabla.addCell(new Paragraph(clasificaiones[i], fuenteNormal));
             tabla.addCell(new Paragraph(totales[i], fuenteNormal));
@@ -1216,7 +1216,7 @@ public class PDFHelper {
         PdfPTable tabla = new PdfPTable(2);
         tabla.setWidthPercentage(100);
         tabla.addCell(new Paragraph("Genero", fuenteNormal));
-        tabla.addCell(new Paragraph("Cantidad de pelÃ­culas", fuenteNormal));
+        tabla.addCell(new Paragraph("Cantidad de películas", fuenteNormal));
         for (int i = 0; i < generos.length; i++) {
             tabla.addCell(new Paragraph(generos[i], fuenteNormal));
             tabla.addCell(new Paragraph(totales[i], fuenteNormal));
@@ -1244,12 +1244,13 @@ public class PDFHelper {
     }
 
     private String obtenerRuta() {
-        String url;
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("C:\\Users\\AdriÃ¡n\\Desktop"));
-        chooser.showSaveDialog(chooser);
-        url = chooser.getSelectedFile().getAbsolutePath();
-        return url + ".pdf";
+//        String url;
+//        JFileChooser chooser = new JFileChooser();
+//        chooser.setCurrentDirectory(new File("C:\\Users\\Adrián\\Desktop"));
+//        chooser.showSaveDialog(chooser);
+//        url = chooser.getSelectedFile().getAbsolutePath();
+//        return url + ".pdf";
+        return "temp/" + new Date().getTime() + ".pdf";
     }
 
     /**

@@ -53,22 +53,22 @@ public class FormularioEmpleado extends javax.swing.JPanel implements Form<Emple
         setMinimumSize(new java.awt.Dimension(420, 300));
         setPreferredSize(new java.awt.Dimension(420, 300));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        add(imagePanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
+        add(imagePanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
 
         jLabel1.setText("ID:");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         id.setEditable(false);
-        add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, -1));
+        add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 190, -1));
 
         nombre.setPrompt("Nombre");
-        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 180, -1));
+        add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 220, -1));
 
         apPaterno.setPrompt("Apellido Paterno");
-        add(apPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 180, -1));
+        add(apPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 220, -1));
 
         apMaterno.setPrompt("Apellido Materno");
-        add(apMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 180, -1));
+        add(apMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 220, -1));
 
         jLabel2.setText("Fecha de nacimiento:");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
@@ -80,37 +80,37 @@ public class FormularioEmpleado extends javax.swing.JPanel implements Form<Emple
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
 
         puesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Vendedor", "Gerente" }));
-        add(puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 90, -1));
+        add(puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 80, -1));
 
         estado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Laborando", "Incapacitado", "Baja" }));
-        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, 90, -1));
+        add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 260, 100, -1));
 
         jLabel5.setText("Condición laboral:");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
         jLabel6.setText("Hora de entrada:");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
 
         jLabel7.setText("Hora de salida");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, -1, -1));
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, -1, -1));
 
         hEntrada.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
         hEntrada.setEditor(new javax.swing.JSpinner.DateEditor(hEntrada, "hh:mm a"));
-        add(hEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 70, -1));
+        add(hEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 90, -1));
 
         hSalida.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
         hSalida.setEditor(new javax.swing.JSpinner.DateEditor(hSalida, "hh:mm a"));
-        add(hSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, 70, -1));
-        add(sueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 70, -1));
+        add(hSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 90, -1));
+        add(sueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 100, -1));
 
         fechaRegistro.setModel(new javax.swing.SpinnerDateModel());
         fechaRegistro.setEditor(new javax.swing.JSpinner.DateEditor(fechaRegistro, "dd/MM/yyyy"));
         fechaRegistro.setEnabled(false);
-        add(fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, -1, -1));
+        add(fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 100, -1));
 
         fechaNacimiento.setModel(new javax.swing.SpinnerDateModel());
         fechaNacimiento.setEditor(new javax.swing.JSpinner.DateEditor(fechaNacimiento, "dd/MM/yyyy"));
-        add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, -1, -1));
+        add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 100, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 

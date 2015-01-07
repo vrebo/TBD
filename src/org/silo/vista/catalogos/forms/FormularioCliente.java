@@ -71,11 +71,11 @@ public class FormularioCliente extends javax.swing.JPanel implements Form<Client
         fechaRegistro.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.YEAR));
         fechaRegistro.setEditor(new javax.swing.JSpinner.DateEditor(fechaRegistro, "dd/MM/yyyy"));
         fechaRegistro.setEnabled(false);
-        add(fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 90, -1));
+        add(fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 100, -1));
 
         fechaNacimiento.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.YEAR));
         fechaNacimiento.setEditor(new javax.swing.JSpinner.DateEditor(fechaNacimiento, "dd/MM/yyyy"));
-        add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 90, -1));
+        add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 100, -1));
     }// </editor-fold>//GEN-END:initComponents
 
 
