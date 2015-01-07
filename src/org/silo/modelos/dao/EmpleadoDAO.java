@@ -2,7 +2,6 @@ package org.silo.modelos.dao;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -34,50 +33,65 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
     public final static String puestoDAO = propiedades.getProperty("empleado-puesto");
 
     @Override
-    public PreparedStatement setArgumentos(Empleado e, PreparedStatement ps)
-            throws Exception {
-        ps.setString(1,
-                     e.getNombre());
-        ps.setString(2, e.getApellidoPaterno());
-        ps.setString(3, e.getApellidoMaterno());
-        ps.setTime(4, new Time(e.getHoraEntrada().getTime()));
-        ps.setTime(5, new Time(e.getHoraSalida().getTime()));
-        ps.setDate(6, new Date(e.getFechaNacimiento().getTime()));
-        ps.setDate(7, new Date(e.getFechaRegistro().getTime()));
-        ps.setString(8, e.getEstado());
-        ps.setString(9, e.getPuesto());
-        ps.setDouble(10, e.getSueldo());
+    public PreparedStatement setArgumentos(Empleado e, PreparedStatement ps) {
+        try {
+            ps.setString(1,
+                         e.getNombre());
+            ps.setString(2, e.getApellidoPaterno());
+            ps.setString(3, e.getApellidoMaterno());
+            ps.setTime(4, new Time(e.getHoraEntrada().getTime()));
+            ps.setTime(5, new Time(e.getHoraSalida().getTime()));
+            ps.setDate(6, new Date(e.getFechaNacimiento().getTime()));
+            ps.setDate(7, new Date(e.getFechaRegistro().getTime()));
+            ps.setString(8, e.getEstado());
+            ps.setString(9, e.getPuesto());
+            ps.setDouble(10, e.getSueldo());
 
-        File portada = e.getImagen().getArchivo();
-        FileInputStream fis = new FileInputStream(portada);
-        ps.setBinaryStream(11, fis, (int) portada.length());
-        ps.setString(12, portada.getName());
-        ps.setString(13, e.getIdEmpleado());
+            File portada = e.getImagen().getArchivo();
+            FileInputStream fis = new FileInputStream(portada);
+            ps.setBinaryStream(11, fis, (int) portada.length());
+            ps.setString(12, portada.getName());
+            ps.setString(13, e.getIdEmpleado());
 
-        return ps;
+            return ps;
+        } catch (SQLException | IOException ex) {
+            String nombreClase = EmpleadoDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 
     @Override
-    public Empleado extraeResultado(ResultSet rs) throws SQLException, FileNotFoundException, IOException {
-        String idEmpleado = rs.getString(1);
-        String nombre = rs.getString(2);
-        String apellidoPaterno = rs.getString(3);
-        String apellidoMaterno = rs.getString(4);
-        java.util.Date horaEntrada = rs.getTime(5);
-        java.util.Date horaSalida = rs.getTime(6);
-        Date fechaNacimiento = rs.getDate(7);
-        Date fechaRegistro = rs.getDate(8);
-        String estado = rs.getString(9);
-        String puesto = rs.getString(10);
-        double sueldo = rs.getDouble("empleado_sueldo");
-        String nombreImagen = rs.getString("empleado_imagen_nombre");
-        FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
-        byte[] bytes = rs.getBytes("empleado_imagen");
-        File archivo = new File("temp/" + nombreImagen);
-        fos.write(bytes);
-        ImageIcon imageIcon = new ImageIcon(bytes);
-        Imagen imagen = new Imagen(archivo, imageIcon);
-        return new Empleado(idEmpleado, horaEntrada, horaSalida, estado, puesto, sueldo, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
+    public Empleado extraeResultado(ResultSet rs) {
+        try {
+            String idEmpleado = rs.getString(1);
+            String nombre = rs.getString(2);
+            String apellidoPaterno = rs.getString(3);
+            String apellidoMaterno = rs.getString(4);
+            java.util.Date horaEntrada = rs.getTime(5);
+            java.util.Date horaSalida = rs.getTime(6);
+            Date fechaNacimiento = rs.getDate(7);
+            Date fechaRegistro = rs.getDate(8);
+            String estado = rs.getString(9);
+            String puesto = rs.getString(10);
+            double sueldo = rs.getDouble("empleado_sueldo");
+            String nombreImagen = rs.getString("empleado_imagen_nombre");
+            FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
+            byte[] bytes = rs.getBytes("empleado_imagen");
+            File archivo = new File("temp/" + nombreImagen);
+            fos.write(bytes);
+            ImageIcon imageIcon = new ImageIcon(bytes);
+            Imagen imagen = new Imagen(archivo, imageIcon);
+            return new Empleado(idEmpleado, horaEntrada, horaSalida, estado, puesto, sueldo, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
+        } catch (SQLException | IOException ex) {
+            String nombreClase = EmpleadoDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 
     @Override
@@ -110,10 +124,7 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
             result = true;
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -145,11 +156,8 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
             ps.close();
             result = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -157,16 +165,18 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
     @Override
     public boolean eliminar(Empleado e, Connection con) {
         boolean result = false;
-        try {
-            PreparedStatement ps = con.prepareStatement(
-                    "DELETE FROM " + nombreTabla + " WHERE "
-                    + idEmpleadoDAO
-                    + " = ?;");
+
+        try (PreparedStatement ps = con.prepareStatement(
+                "DELETE FROM " + nombreTabla + " WHERE "
+                + idEmpleadoDAO
+                + " = ?;")) {
             ps.setString(1, e.getIdEmpleado());
             ps.execute();
-            ps.close();
+
             result = true;
         } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al eliminar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -176,21 +186,18 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
         ArrayList<Empleado> lista = new ArrayList<>();
         String statement
                = "SELECT * FROM " + nombreTabla + ";";
-        try {
-            PreparedStatement ps = con.prepareStatement(statement);
+        try (PreparedStatement ps = con.prepareStatement(statement)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Empleado e = extraeResultado(rs);
                 lista.add(e);
             }
-            ps.close();
+
+            return lista;
         } catch (SQLException ex) {
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
-        return lista;
     }
 
     @Override
@@ -208,8 +215,8 @@ public class EmpleadoDAO extends GenericDAO<Empleado, String> {
             e = extraeResultado(rs);
             ps.close();
         } catch (SQLException ex) {
-        } catch (IOException ex) {
             Logger.getLogger(EmpleadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return e;
     }

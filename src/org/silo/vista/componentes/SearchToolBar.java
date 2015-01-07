@@ -1,5 +1,6 @@
 package org.silo.vista.componentes;
 
+import org.silo.utils.ImageUtils;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,7 +85,7 @@ public class SearchToolBar extends JToolBar {
         String imgLocation = "/images/icons/"
                 + imageName;
 
-        ImageIcon icon = Utils.createImageIcon(imgLocation);
+        ImageIcon icon = ImageUtils.createImageIcon(imgLocation);
         //Create and initialize the button.
         JButton button = new JButton();
         button.setActionCommand(actionCommand);

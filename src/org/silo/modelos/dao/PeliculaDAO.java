@@ -1,10 +1,10 @@
 package org.silo.modelos.dao;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,16 +62,12 @@ public class PeliculaDAO extends GenericDAO<Pelicula, Long> {
                     + ") VALUES (?, ?, ?, ?::interval, ?::time, ?::pelicula_clasificacion, ?, ?, ?);");
 
             ps = setArgumentos(e, ps);
-
             ps.executeUpdate();
             ps.close();
             result = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -99,9 +95,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula, Long> {
             ps.close();
             result = true;
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (Exception ex) {
             Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al extraer datos de la base de datos.", ex);
         }
         return result;
     }
@@ -109,42 +104,38 @@ public class PeliculaDAO extends GenericDAO<Pelicula, Long> {
     @Override
     public boolean eliminar(Pelicula e, Connection con) {
         boolean result = false;
-        try {
-            PreparedStatement ps = con.prepareStatement(
-                    "DELETE FROM " + nombreTabla + " WHERE "
-                    + idPeliculaDAO + " = ?;");
+        try (PreparedStatement ps = con.prepareStatement(
+                "DELETE FROM " + nombreTabla + " WHERE "
+                + idPeliculaDAO + " = ?;")) {
             ps.setLong(1, e.getIdPelicula());
             ps.execute();
-            ps.close();
+
             result = true;
         } catch (SQLException ex) {
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al elimar datos de la base de datos.", ex);
         }
         return result;
     }
 
     @Override
     public List<Pelicula> buscarTodos(Connection con) {
-        ArrayList<Pelicula> lista = new ArrayList<>();
+        ArrayList<Pelicula> lista = null;
         String statement
                = "SELECT * FROM " + nombreTabla + ";";
-        try {
-            PreparedStatement ps = con.prepareStatement(statement);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Pelicula pelicula = extraeResultado(rs);
-                    long idGenero = rs.getLong(GeneroDAO.idGeneroDAO);
-                    GeneroDAO generoDAO = new GeneroDAO();
-                    Genero genero = generoDAO.buscarPorId(idGenero, con);
-                    pelicula.setGenero(genero);
-
-                    lista.add(pelicula);
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        try (PreparedStatement ps = con.prepareStatement(statement); ResultSet rs = ps.executeQuery()) {
+            lista = new ArrayList<>();
+            while (rs.next()) {
+                Pelicula pelicula = extraeResultado(rs);
+                long idGenero = rs.getLong(GeneroDAO.idGeneroDAO);
+                GeneroDAO generoDAO = new GeneroDAO();
+                Genero genero = generoDAO.buscarPorId(idGenero, con);
+                pelicula.setGenero(genero);
+                lista.add(pelicula);
             }
-            ps.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al extraer datos de la base de datos.", ex);
         }
         return lista;
     }
@@ -155,61 +146,74 @@ public class PeliculaDAO extends GenericDAO<Pelicula, Long> {
         String statement
                = "SELECT * FROM " + nombreTabla + " WHERE "
                  + idPeliculaDAO + " = ? ;";
-        try {
-            PreparedStatement ps = con.prepareStatement(statement);
+
+        try (PreparedStatement ps = con.prepareStatement(statement)) {
             ps.setLong(1, id);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            e = extraeResultado(rs);
-            long idGenero = rs.getLong(GeneroDAO.idGeneroDAO);
-            GeneroDAO generoDAO = new GeneroDAO();
-            Genero genero = generoDAO.buscarPorId(idGenero, con);
+            long idGenero;
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                e = extraeResultado(rs);
+                idGenero = rs.getLong(GeneroDAO.idGeneroDAO);
+            }
+            Genero genero = new GeneroDAO().buscarPorId(idGenero, con);
             e.setGenero(genero);
 
-            ps.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } catch (Exception ex) {
             Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al extraer datos de la base de datos.", ex);
         }
         return e;
     }
 
     @Override
-    public PreparedStatement setArgumentos(Pelicula e, PreparedStatement ps) throws Exception {
-        ps.setString(1, e.getTitulo());
-        ps.setString(2, e.getDirector());
-        ps.setString(3, e.getEstelares());
-        ps.setString(4, "'" + e.getAnioEstreno().getYear() + " years'");
-        ps.setTime(5, new Time(e.getDuracion().getTime()));
-        ps.setString(6, e.getClasificacion());
-        ps.setLong(7, e.getGenero().getIdGenero());
-        File archivo = e.getImagen().getArchivo();
-        FileInputStream fis = new FileInputStream(archivo);
-        ps.setBinaryStream(8, fis, (int) archivo.length());
-        ps.setString(9, archivo.getName());
-        return ps;
+    public PreparedStatement setArgumentos(Pelicula e, PreparedStatement ps) {
+        try {
+            ps.setString(1, e.getTitulo());
+            ps.setString(2, e.getDirector());
+            ps.setString(3, e.getEstelares());
+            ps.setString(4, "'" + e.getAnioEstreno().getYear() + " years'");
+            ps.setTime(5, new Time(e.getDuracion().getTime()));
+            ps.setString(6, e.getClasificacion());
+            ps.setLong(7, e.getGenero().getIdGenero());
+            File archivo = e.getImagen().getArchivo();
+            FileInputStream fis = new FileInputStream(archivo);
+            ps.setBinaryStream(8, fis, (int) archivo.length());
+            ps.setString(9, archivo.getName());
+            return ps;
+        } catch (SQLException | FileNotFoundException ex) {
+            Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
+        }
     }
 
     @Override
-    public Pelicula extraeResultado(ResultSet rs) throws Exception {
-        long idPelicula = rs.getLong(idPeliculaDAO);
-        String titulo = rs.getString(tituloDAO);
-        String estelares = rs.getString(estelaresDAO);
-        Date anioEstreno = new Date();
-        anioEstreno.setYear(Integer.parseInt(rs.getString(anioEstrenoDAO).split(" ")[0]));
-        String director = rs.getString(directorDAO);
-        String clasificacion = rs.getString(clasificacionDAO);
-        Time duracion = rs.getTime(duracionDAO);
+    public Pelicula extraeResultado(ResultSet rs) {
+        try {
+            long idPelicula = rs.getLong(idPeliculaDAO);
+            String titulo = rs.getString(tituloDAO);
+            String estelares = rs.getString(estelaresDAO);
+            Date anioEstreno = new Date();
+            anioEstreno.setYear(Integer.parseInt(
+                    rs.getString(anioEstrenoDAO).split(" ")[0]));
+            String director = rs.getString(directorDAO);
+            String clasificacion = rs.getString(clasificacionDAO);
+            Time duracion = rs.getTime(duracionDAO);
 
-        String nombreImagen = rs.getString("pelicula_portada_nombre");
-        FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
-        byte[] bytes = rs.getBytes("pelicula_portada");
-        fos.write(bytes);
-        File archivo = new File("temp/" + nombreImagen);
-        ImageIcon imageIcon = new ImageIcon(bytes);
-        Imagen imagen = new Imagen(archivo, imageIcon);
-        return new Pelicula(idPelicula, estelares, titulo, anioEstreno, director, clasificacion, duracion, imagen);
+            String nombreImagen = rs.getString("pelicula_portada_nombre");
+            FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
+            byte[] bytes = rs.getBytes("pelicula_portada");
+            fos.write(bytes);
+            File archivo = new File("temp/" + nombreImagen);
+            ImageIcon imageIcon = new ImageIcon(bytes);
+            Imagen imagen = new Imagen(archivo, imageIcon);
+            return new Pelicula(idPelicula, estelares, titulo, anioEstreno,
+                                director, clasificacion, duracion, imagen);
+        } catch (SQLException | IOException ex) {
+            String nombreClase = PeliculaDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
-
 }

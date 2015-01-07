@@ -5,6 +5,7 @@
  */
 package org.silo.vista.componentes;
 
+import org.silo.utils.ImageUtils;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,7 +23,7 @@ public class JXDatePicker extends org.jdesktop.swingx.JXDatePicker{
     private void editButtonIcon(){
         JButton boton = (JButton) getComponent(1);
         ImageIcon icon = new ImageIcon(
-                Utils.createImageIcon("/images/icons/common_calendar_month_outline_stroke.png").getImage().getScaledInstance(-1, 20, Image.SCALE_DEFAULT));
+                ImageUtils.createImageIcon("/images/icons/common_calendar_month_outline_stroke.png").getImage().getScaledInstance(-1, 20, Image.SCALE_DEFAULT));
         boton.setIcon(icon);
     }
 }

@@ -2,7 +2,6 @@ package org.silo.modelos.dao;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -48,10 +47,9 @@ public class ClienteDAO extends GenericDAO<Cliente, String> {
             ps.execute();
             ps.close();
             result = true;
-        } catch (FileNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -75,10 +73,9 @@ public class ClienteDAO extends GenericDAO<Cliente, String> {
             ps = setArgumentos(e, ps);
             ps.executeUpdate();
             result = true;
-        } catch (FileNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
 
         return result;
@@ -96,6 +93,8 @@ public class ClienteDAO extends GenericDAO<Cliente, String> {
             }
             result = true;
         } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return result;
     }
@@ -110,10 +109,9 @@ public class ClienteDAO extends GenericDAO<Cliente, String> {
                 Cliente cliente = extraeResultado(rs);
                 lista.add(cliente);
             }
-        } catch (IOException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return lista;
     }
@@ -132,48 +130,61 @@ public class ClienteDAO extends GenericDAO<Cliente, String> {
             e = extraeResultado(rs);
 
             rs.close();
-        } catch (FileNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
         }
         return e;
     }
 
     @Override
-    public PreparedStatement setArgumentos(Cliente e, PreparedStatement ps) throws Exception {
-        ps.setString(1, e.getNombre());
-        ps.setString(2, e.getApellidoPaterno());
-        ps.setString(3, e.getApellidoMaterno());
-        ps.setDate(4, new Date(e.getFechaNacimiento().getTime()));
-        ps.setDate(5, new Date(e.getFechaRegistro().getTime()));
-        File archivo = e.getImagen().getArchivo();
-        FileInputStream fis = new FileInputStream(archivo);
-        ps.setBinaryStream(6, fis, (int) archivo.length());
-        ps.setString(7, archivo.getName());
-        ps.setString(8, e.getIdCliente());
-        return ps;
+    public PreparedStatement setArgumentos(Cliente e, PreparedStatement ps) {
+        try {
+            ps.setString(1, e.getNombre());
+            ps.setString(2, e.getApellidoPaterno());
+            ps.setString(3, e.getApellidoMaterno());
+            ps.setDate(4, new Date(e.getFechaNacimiento().getTime()));
+            ps.setDate(5, new Date(e.getFechaRegistro().getTime()));
+            File archivo = e.getImagen().getArchivo();
+            FileInputStream fis = new FileInputStream(archivo);
+            ps.setBinaryStream(6, fis, (int) archivo.length());
+            ps.setString(7, archivo.getName());
+            ps.setString(8, e.getIdCliente());
+            return ps;
+        } catch (SQLException | IOException ex) {
+            String nombreClase = ClienteDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 
     @Override
-    public Cliente extraeResultado(ResultSet rs) throws Exception {
-        String idCliente = rs.getString(idClienteDAO);
-        String nombre = rs.getString(nombreDAO);
-        String apellidoPaterno = rs.getString(apellidoPaternoDAO);
-        String apellidoMaterno = rs.getString(apellidoMaternoDAO);
-        java.util.Date fechaNacimiento = rs.getDate(fechaNacimientoDAO);
-        java.util.Date fechaRegistro = rs.getDate(fechaRegistroDAO);
+    public Cliente extraeResultado(ResultSet rs) {
+        try {
+            String idCliente = rs.getString(idClienteDAO);
+            String nombre = rs.getString(nombreDAO);
+            String apellidoPaterno = rs.getString(apellidoPaternoDAO);
+            String apellidoMaterno = rs.getString(apellidoMaternoDAO);
+            java.util.Date fechaNacimiento = rs.getDate(fechaNacimientoDAO);
+            java.util.Date fechaRegistro = rs.getDate(fechaRegistroDAO);
 
-        String nombreImagen = rs.getString("cliente_imagen_nombre");
-        FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
-        byte[] bytes = rs.getBytes("cliente_imagen");
-        fos.write(bytes);
-        File archivo = new File("temp/" + nombreImagen);
-        ImageIcon imageIcon = new ImageIcon(bytes);
-        Imagen imagen = new Imagen(archivo, imageIcon);
+            String nombreImagen = rs.getString("cliente_imagen_nombre");
+            FileOutputStream fos = new FileOutputStream("temp/" + nombreImagen);
+            byte[] bytes = rs.getBytes("cliente_imagen");
+            fos.write(bytes);
+            File archivo = new File("temp/" + nombreImagen);
+            ImageIcon imageIcon = new ImageIcon(bytes);
+            Imagen imagen = new Imagen(archivo, imageIcon);
 
-        return new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
+            return new Cliente(idCliente, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
+        } catch (SQLException | IOException ex) {
+            String nombreClase = PeliculaDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 }

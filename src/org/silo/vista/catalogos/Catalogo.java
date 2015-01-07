@@ -45,7 +45,7 @@ public abstract class Catalogo extends JPanel {
         tabla = panelTabla.getjXTable();
         tabla.setRowSorter(sorter);
         searchToolBar = new SearchToolBar();
-        
+
         add(searchToolBar, BorderLayout.NORTH);
         add(form, BorderLayout.CENTER);
         add(panelTabla, BorderLayout.SOUTH);
@@ -71,12 +71,15 @@ public abstract class Catalogo extends JPanel {
             setEditando(false);
             ((Form) form).cleanData();
         });
+
         tabla.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     JTable target = (JTable) e.getSource();
-                    int row = target.getSelectedRow();
+                    System.out.println(
+                            sorter.convertRowIndexToModel(target.getSelectedRow()));
+                    int row = sorter.convertRowIndexToModel(target.getSelectedRow());
                     if (row > -1) {
                         editando = true;
                         ((Form) form).setData(modelo.getData().get(row));

@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-package org.silo.vista.componentes;
+package org.silo.utils;
 
 import java.io.File;
 import javax.swing.ImageIcon;
  
 /* Utils.java is used by FileChooserDemo2.java. */
-public class Utils {
+public class ImageUtils {
     public final static String jpeg = "jpeg";
     public final static String jpg = "jpg";
     public final static String gif = "gif";
@@ -34,7 +34,7 @@ public class Utils {
  
     /** Returns an ImageIcon, or null if the path was invalid. */
     public static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = Utils.class.getResource(path);
+        java.net.URL imgURL = ImageUtils.class.getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL);
         } else {

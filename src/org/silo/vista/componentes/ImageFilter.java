@@ -5,6 +5,7 @@
  */
 package org.silo.vista.componentes;
 
+import org.silo.utils.ImageUtils;
 import java.io.File;
 import javax.swing.filechooser.*;
 
@@ -18,14 +19,14 @@ public class ImageFilter extends FileFilter {
             return true;
         }
 
-        String extension = Utils.getExtension(f);
+        String extension = ImageUtils.getExtension(f);
         if (extension != null) {
-            return extension.equals(Utils.tiff)
-                    || extension.equals(Utils.tif)
-                    || extension.equals(Utils.gif)
-                    || extension.equals(Utils.jpeg)
-                    || extension.equals(Utils.jpg)
-                    || extension.equals(Utils.png);
+            return extension.equals(ImageUtils.tiff)
+                    || extension.equals(ImageUtils.tif)
+                    || extension.equals(ImageUtils.gif)
+                    || extension.equals(ImageUtils.jpeg)
+                    || extension.equals(ImageUtils.jpg)
+                    || extension.equals(ImageUtils.png);
         }
         return false;
     }

@@ -6,16 +6,17 @@
 
 package org.silo.vista.componentes;
 
+import org.silo.utils.ImageUtils;
 import java.io.File;
 import javax.swing.*;
 import javax.swing.filechooser.*;
  
 /* ImageFileView.java is used by FileChooserDemo2.java. */
 public class ImageFileView extends FileView {
-    ImageIcon jpgIcon = Utils.createImageIcon("/images/filetype-jpg-icon.png");
-    ImageIcon gifIcon = Utils.createImageIcon("/images/Image-GIF-icon.png");
-    ImageIcon tiffIcon = Utils.createImageIcon("/images/Image-TIFF-icon.png");
-    ImageIcon pngIcon = Utils.createImageIcon("/images/Image-PNG-icon.png");
+    ImageIcon jpgIcon = ImageUtils.createImageIcon("/images/filetype-jpg-icon.png");
+    ImageIcon gifIcon = ImageUtils.createImageIcon("/images/Image-GIF-icon.png");
+    ImageIcon tiffIcon = ImageUtils.createImageIcon("/images/Image-TIFF-icon.png");
+    ImageIcon pngIcon = ImageUtils.createImageIcon("/images/Image-PNG-icon.png");
  
     @Override
     public String getName(File f) {
@@ -34,23 +35,23 @@ public class ImageFileView extends FileView {
  
     @Override
     public String getTypeDescription(File f) {
-        String extension = Utils.getExtension(f);
+        String extension = ImageUtils.getExtension(f);
         String type = null;
  
         if (extension != null) {
             switch (extension) {
-                case Utils.jpeg:
-                case Utils.jpg:
+                case ImageUtils.jpeg:
+                case ImageUtils.jpg:
                     type = "JPEG Image";
                     break;
-                case Utils.gif:
+                case ImageUtils.gif:
                     type = "GIF Image";
                     break;
-                case Utils.tiff:
-                case Utils.tif:
+                case ImageUtils.tiff:
+                case ImageUtils.tif:
                     type = "TIFF Image";
                     break;
-                case Utils.png:
+                case ImageUtils.png:
                     type = "PNG Image";
                     break;
             }
@@ -60,23 +61,23 @@ public class ImageFileView extends FileView {
  
     @Override
     public Icon getIcon(File f) {
-        String extension = Utils.getExtension(f);
+        String extension = ImageUtils.getExtension(f);
         Icon icon = null;
  
         if (extension != null) {
             switch (extension) {
-                case Utils.jpeg:
-                case Utils.jpg:
+                case ImageUtils.jpeg:
+                case ImageUtils.jpg:
                     icon = jpgIcon;
                     break;
-                case Utils.gif:
+                case ImageUtils.gif:
                     icon = gifIcon;
                     break;
-                case Utils.tiff:
-                case Utils.tif:
+                case ImageUtils.tiff:
+                case ImageUtils.tif:
                     icon = tiffIcon;
                     break;
-                case Utils.png:
+                case ImageUtils.png:
                     icon = pngIcon;
                     break;
             }

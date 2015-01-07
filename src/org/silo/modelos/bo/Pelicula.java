@@ -1,6 +1,7 @@
 package org.silo.modelos.bo;
 
 import java.util.Date;
+import org.silo.utils.Validator;
 
 public class Pelicula {
 
@@ -17,7 +18,19 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula(long idPelicula, String estelares, String titulo, Date anioEstreno, String director, String clasificacion, Date duracion, Imagen imagen) {
+    public Pelicula(
+            long idPelicula, String estelares, String titulo, Date anioEstreno,
+            String director, String clasificacion, Date duracion, Imagen imagen) {
+        Validator.checkForRange(Long.MIN_VALUE, Long.MAX_VALUE, idPelicula,
+                                "El id está fuera del rango permitido min "
+                                + Long.MIN_VALUE + " max " + Long.MAX_VALUE);
+        Validator.checkForContent(estelares, "Los estelares no pueden estar vacío.");
+        Validator.checkForContent(titulo, "El título no puede estar vacío.");
+        Validator.checkForNull(anioEstreno, "El año de estreno no puede ser null.");
+        Validator.checkForContent(director, "El director no puede estar vacío.");
+        Validator.checkForContent(clasificacion, "La clasificación no puede estar vacía.");
+        Validator.checkForNull(duracion, "La duración no puede ser null.");
+        Validator.checkForNull(imagen, "La imagen no puede ser null.");
         this.idPelicula = idPelicula;
         this.estelares = estelares;
         this.titulo = titulo;
@@ -30,6 +43,7 @@ public class Pelicula {
 
     public Pelicula(long idPelicula, Genero genero, String estelares, String titulo, Date anioEstreno, String director, String clasificacion, Date duracion, Imagen imagen) {
         this(idPelicula, estelares, titulo, anioEstreno, director, clasificacion, duracion, imagen);
+        Validator.checkForNull(genero, "El genero no puede ser null.");
         this.genero = genero;
     }
 
@@ -38,6 +52,9 @@ public class Pelicula {
     }
 
     public void setIdPelicula(long idPelicula) {
+        Validator.checkForRange(Long.MIN_VALUE, Long.MAX_VALUE, idPelicula,
+                                "El id está fuera del rango permitido min "
+                                + Long.MIN_VALUE + " max " + Long.MAX_VALUE);
         this.idPelicula = idPelicula;
     }
 
@@ -46,6 +63,7 @@ public class Pelicula {
     }
 
     public void setGenero(Genero genero) {
+        Validator.checkForNull(genero, "El genero no puede ser null.");
         this.genero = genero;
     }
 
@@ -54,6 +72,7 @@ public class Pelicula {
     }
 
     public void setEstelares(String estelares) {
+        Validator.checkForContent(estelares, "Los estelares no pueden estar vacío.");
         this.estelares = estelares;
     }
 
@@ -62,6 +81,7 @@ public class Pelicula {
     }
 
     public void setTitulo(String titulo) {
+        Validator.checkForContent(titulo, "El título no puede estar vacío.");
         this.titulo = titulo;
     }
 
@@ -70,6 +90,7 @@ public class Pelicula {
     }
 
     public void setDirector(String director) {
+        Validator.checkForContent(director, "El director no puede estar vacío.");
         this.director = director;
     }
 
@@ -78,6 +99,7 @@ public class Pelicula {
     }
 
     public void setClasificacion(String clasificacion) {
+        Validator.checkForContent(clasificacion, "La clasificación no puede estar vacía.");
         this.clasificacion = clasificacion;
     }
 
@@ -86,6 +108,7 @@ public class Pelicula {
     }
 
     public void setAnioEstreno(Date anioEstreno) {
+        Validator.checkForNull(anioEstreno, "El año de estreno no puede ser null.");
         this.anioEstreno = anioEstreno;
     }
 
@@ -94,6 +117,7 @@ public class Pelicula {
     }
 
     public void setDuracion(Date duracion) {
+        Validator.checkForNull(duracion, "La duración no puede ser null.");
         this.duracion = duracion;
     }
 
@@ -102,6 +126,7 @@ public class Pelicula {
     }
 
     public void setImagen(Imagen imagen) {
+        Validator.checkForNull(imagen, "La imagen no puede ser null.");
         this.imagen = imagen;
     }
 
@@ -113,9 +138,16 @@ public class Pelicula {
     @Override
     public boolean equals(Object o) {
         if (o instanceof Pelicula) {
-            return idPelicula == ((Pelicula) o).getIdPelicula();
+            return hashCode() == ((Pelicula) o).hashCode();
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + (int) (this.idPelicula ^ (this.idPelicula >>> 32));
+        return hash;
     }
 
 }

@@ -43,7 +43,7 @@ public class GeneroDAO extends GenericDAO<Genero, Long> {
             ps.execute();
             ps.close();
             result = true;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
@@ -129,17 +129,33 @@ public class GeneroDAO extends GenericDAO<Genero, Long> {
     }
 
     @Override
-    public PreparedStatement setArgumentos(Genero e, PreparedStatement ps) throws Exception {
-        ps.setString(1, e.getNombre());
-        ps.setString(2, e.getDescripcion());
-        return ps;
+    public PreparedStatement setArgumentos(Genero e, PreparedStatement ps) {
+        try {
+            ps.setString(1, e.getNombre());
+            ps.setString(2, e.getDescripcion());
+            return ps;
+        } catch (SQLException ex) {
+            String nombreClase = GeneroDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 
     @Override
-    public Genero extraeResultado(ResultSet rs) throws Exception {
-        long idGenero = rs.getLong(idGeneroDAO);
-        String nombre = rs.getString(nombreDAO);
-        String descripcion = rs.getString(descripcionDAO);
-        return new Genero(idGenero, nombre, descripcion);
+    public Genero extraeResultado(ResultSet rs) {
+        try {
+            long idGenero = rs.getLong(idGeneroDAO);
+            String nombre = rs.getString(nombreDAO);
+            String descripcion = rs.getString(descripcionDAO);
+            return new Genero(idGenero, nombre, descripcion);
+        } catch (SQLException ex) {
+            String nombreClase = PeliculaDAO.class.getName();
+            Logger.getLogger(
+                    nombreClase).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(nombreClase
+                                       + "Problema al extraer los datos de la base de datos.", ex);
+        }
     }
 }

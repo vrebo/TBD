@@ -39,9 +39,9 @@ public abstract class GenericDAO<E, P> {
 
     public abstract E buscarPorId(P id, Connection con);
 
-    public abstract PreparedStatement setArgumentos(E e, PreparedStatement ps) throws Exception;
+    public abstract PreparedStatement setArgumentos(E e, PreparedStatement ps);
 
-    public abstract E extraeResultado(ResultSet rs) throws Exception;
+    public abstract E extraeResultado(ResultSet rs);
 
     public boolean persistirCommit(E e) {
         Connection con = DataBaseHelper.getConexion();
@@ -52,13 +52,14 @@ public abstract class GenericDAO<E, P> {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 con.rollback();
                 con.close();
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage(), ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new RuntimeException(null, ex1);
             }
         }
         return result;
@@ -73,13 +74,14 @@ public abstract class GenericDAO<E, P> {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 con.rollback();
                 con.close();
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage(), ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new RuntimeException(ex.getMessage(), ex1);
             }
         }
         return result;
@@ -94,13 +96,14 @@ public abstract class GenericDAO<E, P> {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 con.rollback();
                 con.close();
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage(), ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new RuntimeException(ex.getMessage(), ex1);
             }
         }
         return result;
@@ -115,13 +118,14 @@ public abstract class GenericDAO<E, P> {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 con.rollback();
                 con.close();
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage(), ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new RuntimeException(ex.getMessage(), ex1);
             }
         }
         return result;
@@ -136,13 +140,14 @@ public abstract class GenericDAO<E, P> {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 con.rollback();
                 con.close();
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex.getMessage(), ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(GenericDAO.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new RuntimeException(ex.getMessage(), ex1);
             }
         }
         return result;

@@ -5,6 +5,10 @@
  */
 package org.silo.test.catalogos;
 
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 import org.silo.modelos.bo.Conexion;
 import org.silo.modelos.dao.DataBaseHelper;
 import org.silo.vista.catalogos.CatalogoCliente;
@@ -25,15 +29,15 @@ public class TestCatalogos extends javax.swing.JFrame {
     public TestCatalogos() {
         DataBaseHelper.setConexion(new Conexion());
         initComponents();
-        jTabbedPane1.addTab("Películas", 
-                new CatalogoPelicula());
-        jTabbedPane1.addTab("Clientes",new CatalogoCliente());
+        jTabbedPane1.addTab("Películas",
+                            new CatalogoPelicula());
+        jTabbedPane1.addTab("Clientes", new CatalogoCliente());
         jTabbedPane1.addTab("Empleados",
-                new CatalogoEmpleado());
+                            new CatalogoEmpleado());
         jTabbedPane1.addTab("Copias",
-                new CatalogoCopia());
+                            new CatalogoCopia());
         jTabbedPane1.addTab("Generos",
-                new CatalogoGenero());
+                            new CatalogoGenero());
         pack();
     }
 
@@ -92,14 +96,36 @@ public class TestCatalogos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        EventQueue queue = Toolkit.getDefaultToolkit().getSystemEventQueue();
+        queue.push(new EventQueueProxy());
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TestCatalogos().setVisible(true);
+
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
+}
+
+class EventQueueProxy extends EventQueue {
+
+    protected void dispatchEvent(AWTEvent newEvent) {
+        try {
+            super.dispatchEvent(newEvent);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            String message = t.getMessage();
+
+            if (message == null || message.length() == 0) {
+                message = "Fatal: " + t.getClass();
+            }
+
+            JOptionPane.showMessageDialog(null, message, "Error de aplicación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

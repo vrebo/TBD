@@ -1,6 +1,7 @@
 package org.silo.modelos.bo;
 
 import java.util.Date;
+import org.silo.utils.Validator;
 
 public class Cliente extends Persona {
 
@@ -11,6 +12,7 @@ public class Cliente extends Persona {
 
     public Cliente(String idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
         super(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
+        Validator.checkForContent(idCliente, "El id no puede estar vacío.");
         this.idCliente = idCliente;
     }
 
@@ -19,7 +21,7 @@ public class Cliente extends Persona {
     }
 
     public void setIdCliente(String idCliente) {
-        validaStrings(idCliente, "El id del cliente está vacio.");
+        Validator.checkForContent(idCliente, "El id no puede estar vacío.");
         this.idCliente = idCliente;
     }
 }

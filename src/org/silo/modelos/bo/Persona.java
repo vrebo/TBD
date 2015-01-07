@@ -1,21 +1,27 @@
 package org.silo.modelos.bo;
 
 import java.util.Date;
-import javax.swing.ImageIcon;
+import org.silo.utils.Validator;
 
 public abstract class Persona {
 
-    protected String nombre;
-    protected String apellidoPaterno;
-    protected String apellidoMaterno;
-    protected Date fechaNacimiento;
-    protected Date fechaRegistro;
-    protected Imagen imagen;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private Date fechaNacimiento;
+    private Date fechaRegistro;
+    private Imagen imagen;
 
     public Persona() {
     }
 
     public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
+        Validator.checkForContent(nombre, "El nombre no puede estar vacío.");
+        Validator.checkForContent(apellidoPaterno, "El apellido paterno no puede estar vacío.");
+        Validator.checkForContent(apellidoMaterno, "El apellido materno no puede estar vacío.");
+        Validator.checkForNull(fechaNacimiento, "La fecha de nacimiento no puede estar vacía.");
+        Validator.checkForNull(fechaRegistro, "La fecha de registro no puede estar vacía.");
+        Validator.checkForNull(imagen, "La imagen no puede estar vacía.");
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -24,17 +30,12 @@ public abstract class Persona {
         this.imagen = imagen;
     }
 
-    public void validaStrings(String string, String msjError) {
-        if (string.isEmpty()) {
-            throw new IllegalArgumentException(msjError);
-        }
-    }
-
     public Imagen getImagen() {
         return imagen;
     }
 
     public void setImagen(Imagen imagen) {
+        Validator.checkForNull(imagen, "La imagen no puede estar vacía.");
         this.imagen = imagen;
     }
 
@@ -43,7 +44,7 @@ public abstract class Persona {
     }
 
     public void setNombre(String nombre) {
-        validaStrings(nombre, "El nombre es necesario.");
+        Validator.checkForContent(nombre, "El nombre no puede estar vacío.");
         this.nombre = nombre;
     }
 
@@ -52,7 +53,7 @@ public abstract class Persona {
     }
 
     public void setApellidoPaterno(String apellidoPaterno) {
-        validaStrings(apellidoPaterno, "El apellido paterno es necesario.");
+        Validator.checkForContent(apellidoPaterno, "El apellido paterno no puede estar vacío.");
         this.apellidoPaterno = apellidoPaterno;
     }
 
@@ -61,12 +62,8 @@ public abstract class Persona {
     }
 
     public void setApellidoMaterno(String apellidoMaterno) {
-        validaStrings(apellidoMaterno, "El apellido paterno es necesario.");
+        Validator.checkForContent(apellidoMaterno, "El apellido materno no puede estar vacío.");
         this.apellidoMaterno = apellidoMaterno;
-    }
-
-    public String getNombreCompleto() {
-        return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
     }
 
     public Date getFechaNacimiento() {
@@ -74,6 +71,7 @@ public abstract class Persona {
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {
+        Validator.checkForNull(fechaNacimiento, "La fecha de nacimiento no puede estar vacía.");
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -82,7 +80,11 @@ public abstract class Persona {
     }
 
     public void setFechaRegistro(Date fechaRegistro) {
+        Validator.checkForNull(fechaRegistro, "La fecha de registro no puede estar vacía.");
         this.fechaRegistro = fechaRegistro;
     }
 
+    public String getNombreCompleto() {
+        return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
+    }
 }
