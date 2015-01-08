@@ -66,7 +66,7 @@ public class PanelEmpleados extends PanelGenerador implements Form<Object[]> {
     private org.silo.vista.reportes.PanelIntervaloFecha panelIntervaloFecha1;
     // End of variables declaration//GEN-END:variables
 
-    Object[] data = null;
+    private Object[] data = null;
 
     @Override
     public Object[] getData() {

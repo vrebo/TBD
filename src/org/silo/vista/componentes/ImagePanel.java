@@ -146,7 +146,7 @@ public class ImagePanel extends javax.swing.JPanel implements Form<Imagen> {
 
     @Override
     public void cleanData() {
-        File file = new File("resources/images/logo-lois.png");
+        File file = new File("resources/images/Silo-ico.ico");
         System.out.println(file.canRead());
         data = new Imagen(file,
                               new ImageIcon(file.getPath()));

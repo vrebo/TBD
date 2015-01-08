@@ -5,17 +5,21 @@
  */
 package org.silo.vista.reportes;
 
+import org.silo.vista.catalogos.forms.Form;
+
 /**
  *
  * @author VREBO
  */
-public class PanelPeliculas extends javax.swing.JPanel {
+public class PanelPeliculas extends PanelGenerador implements Form<String> {
 
     /**
      * Creates new form PanelPeliculas
      */
     public PanelPeliculas() {
         initComponents();
+        _initComponents();
+        nombreReporte = "reporte-peliculas";
     }
 
     /**
@@ -83,9 +87,40 @@ public class PanelPeliculas extends javax.swing.JPanel {
     private javax.swing.JRadioButton opcionGenero;
     // End of variables declaration//GEN-END:variables
 
-    public void _initComponents(){
+    private void _initComponents() {
         buttonGroup.add(opcionAnio);
         buttonGroup.add(opcionGenero);
         buttonGroup.add(opcionClasificacion);
+        opcionGenero.setSelected(true);
+    }
+
+    private String data;
+
+    @Override
+    public String getData() {
+        data = "reporte-";
+        if (opcionAnio.isSelected()) {
+            data += "anio";
+        } else if (opcionClasificacion.isSelected()) {
+            data += "clasificacion";
+        } else {
+            data += "genero";
+        }
+        return data;
+    }
+
+    @Override
+    public void setData(String data) {
+
+    }
+
+    @Override
+    public void updateData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cleanData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

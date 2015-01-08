@@ -1,10 +1,6 @@
 package org.silo.controlador;
 
 import java.awt.Container;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import org.silo.modelos.bo.Cliente;
-import org.silo.modelos.bo.Empleado;
 
 public class VerificarClienteAccion extends Accion {
 

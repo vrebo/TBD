@@ -32,39 +32,15 @@ public class BarraMenu extends JMenuBar {
     private final JMenuItem[] itemsMenuProcesos = {
         new JMenuItem("Registro de venta"),
         new JMenuItem("Cambio de película")
-    };
-    
-    private final JMenuItem[] itemsMenuAltas = {
-        new JMenuItem("Clientes"),
-        new JMenuItem("Empleados"),
-        new JMenuItem("Películas"),
-        new JMenuItem("Copias de películas"),
-        new JMenuItem("Genero"),
-    };
-
-    private final JMenuItem[] itemsMenuModificaciones = {
-        new JMenuItem("Clientes"),
-        new JMenuItem("Empleados"),
-        new JMenuItem("Películas"),
-        new JMenuItem("Copias de películas"),
-        new JMenuItem("Genero"),
-    };
-
-    private final JMenuItem[] itemsMenuBajas = {
-        new JMenuItem("Clientes"),
-        new JMenuItem("Empleados"),
-        new JMenuItem("Películas"),
-        new JMenuItem("Copias de películas"),
-        new JMenuItem("Genero")
-    };
+    };    
 
     private final JMenuItem[] itemsMenuReporte = {
-        new JMenuItem("Ventas mensuales"),
+        new JMenuItem("Ventas"),
         new JMenuItem("Clientes"),
         new JMenuItem("Empleados"),
         new JMenuItem("Copias película"),
-        new JMenuItem("Películas"),
-        new JMenuItem("Generos")
+        new JMenuItem("Películas")
+//        new JMenuItem("Generos")
     };
     
     private final JMenuItem[] itemsMenuUtileria = {
@@ -87,14 +63,6 @@ public class BarraMenu extends JMenuBar {
         "MuestraCatGeneros",
         "MuestraCatVentas"
     };
-
-    private final String[] accionesItemsAltas = {
-        "MuestraAltaClienteFrame",
-        "MuestraAltaEmpleadoFrame",
-        "MuestraAltaPeliculaFrame",
-        "MuestraAltaClienteFrame",
-        "MuestraAltaGeneroFrame"
-    };
     
     private final String[] accionesItemsProceso = {
         "MuestraVentaFrame",
@@ -102,12 +70,12 @@ public class BarraMenu extends JMenuBar {
     };
     
     private final String[] accionesItemsReporte = {
-        "MuestraVentaFrame",
-        "ReporteClientes",
-        "ReporteEmpleado",
-        "ReporteCopia",
-        "ReportePelicula",
-        "ReporteGenero"
+        "MuestraReporteVentas",
+        "MuestraReporteClientes",
+        "MuestraReporteEmpleados",
+        "MuestraReporteCopias",
+        "MuestraReportePeliculas"
+//        "ReporteGenero"
     };
 
     public BarraMenu(Container componente) {
@@ -137,38 +105,10 @@ public class BarraMenu extends JMenuBar {
         addComponentes(jMenuCatalogos, itemsMenuCatalogo, accionesItemsCatalogo);
         
         //Agregación de los items al menú Procesos
-
-        JMenu mAltas = new JMenu("Altas");
-        JMenu mModificaciones = new JMenu("Modificaciones");
-        JMenu mBajas = new JMenu("Bajas");
-
-        jMenuProcesos.add(mAltas);
-        jMenuProcesos.addSeparator();
-        jMenuProcesos.add(mModificaciones);
-        jMenuProcesos.addSeparator();
-        jMenuProcesos.add(mBajas);
-        jMenuProcesos.addSeparator();
-        
-        addComponentes(mAltas, itemsMenuAltas, accionesItemsAltas);
-                
-        for (int i = 0; i < itemsMenuModificaciones.length; i++) {
-            mModificaciones.add(itemsMenuModificaciones[i]);
-//            itemsMenuCatalogo[i].setName(accionesItemsCatalogo[i]);
-        }
-        
-         for (int i = 0; i < itemsMenuBajas.length; i++) {
-            mBajas.add(itemsMenuBajas[i]);
-//            itemsMenuCatalogo[i].setName(accionesItemsCatalogo[i]);
-        }
-
-        for (int i = 0; i < itemsMenuReporte.length; i++) {
-            jMenuReportes.add(itemsMenuReporte[i]);
-            itemsMenuReporte[i].setName(accionesItemsReporte[i]);
-        }
-        
         addComponentes(jMenuProcesos, itemsMenuProcesos, accionesItemsProceso);
                
-        //Agregación de los items al menú Sesión
+        //Agregación de los items al menú Reportes
+        addComponentes(jMenuReportes, itemsMenuReporte, accionesItemsReporte);
 
         for (int i = 0; i < itemsMenuUtileria.length; i++) {
             jMenuUtilerias.add(itemsMenuUtileria[i]);
@@ -184,17 +124,11 @@ public class BarraMenu extends JMenuBar {
     }
 
     private void addEventos(Container contenedor) {
-        System.out.println("eventos agregador a barra");
+        System.out.println("Eventos agregados a items de la barra de menú");
         addEventos(itemsMenuCatalogo, contenedor);
-        
-        addEventos(itemsMenuSesion, contenedor);
-        
+        addEventos(itemsMenuSesion, contenedor);        
         addEventos(itemsMenuProcesos, contenedor);
-
-        addEventos(itemsMenuAltas, contenedor);
-        
         addEventos(itemsMenuReporte, contenedor);
-
     }
     
     private void addEventos(JMenuItem[] items, Container contenedor){

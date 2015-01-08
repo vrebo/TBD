@@ -38,5 +38,4 @@ public class CatalogoCliente extends Catalogo {
         });
         
     }
-
 }

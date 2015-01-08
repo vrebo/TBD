@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  * @author Adrián
  */
 public class PanelPDF extends JPanel {
-    
+
     private final String ruta;
     private PagePanel panelPDF;
     private PDFFile archivoPDF;
@@ -70,36 +70,18 @@ public class PanelPDF extends JPanel {
     }
 
     private void installListeners() {
-
         KeyListener keyListener = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent evt) {
                 switch (evt.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        if (indice > 1) {
-                            panelPDF.setClip(null);
-                            panelPDF.useZoomTool(true);
-                            indice--;
-                            etiquetaPagActual.setText(Integer.toString(indice));
-                            PDFPage pagina = getFile().getPage(indice);
-                            panelPDF.showPage(pagina);
-                            repaint();
-                        }
+                        paginaAnterior();
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (indice < archivoPDF.getNumPages()) {
-                            panelPDF.setClip(null);
-                            panelPDF.useZoomTool(true);
-                            indice++;
-                            etiquetaPagActual.setText(Integer.toString(indice));
-                            PDFPage pagina = getFile().getPage(indice);
-                            panelPDF.showPage(pagina);
-                            repaint();
-                        }
+                        paginaSiguiente();
                         break;
                     case KeyEvent.VK_ESCAPE:
-                        panelPDF.setClip(null);
-                        panelPDF.useZoomTool(true);
+                        restauraZoom();
                         break;
                 }
             }
@@ -115,6 +97,35 @@ public class PanelPDF extends JPanel {
         addMouseListener(mouseListener);
         panelPDF.addKeyListener(keyListener);
         panelPDF.addMouseListener(mouseListener);
+    }
+
+    public void paginaAnterior() {
+        if (indice > 1) {
+            restauraZoom();
+            indice--;
+            muestraPagina();
+            repaint();
+        }
+    }
+
+    public void paginaSiguiente() {
+        if (indice < archivoPDF.getNumPages()) {
+            restauraZoom();
+            indice++;
+            muestraPagina();
+            repaint();
+        }
+    }
+
+    public void restauraZoom() {
+        panelPDF.setClip(null);
+        panelPDF.useZoomTool(true);
+    }
+
+    private void muestraPagina() {
+        etiquetaPagActual.setText(Integer.toString(indice));
+        PDFPage pagina = getFile().getPage(indice);
+        panelPDF.showPage(pagina);
     }
 
     /**

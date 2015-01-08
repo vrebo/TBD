@@ -21,6 +21,8 @@ public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date
     public PanelIntervaloFecha() {
         initComponents();
         _initComponents();
+        cleanData();
+        setEnabled(false);
     }
 
     /**
@@ -133,7 +135,9 @@ public class PanelIntervaloFecha extends javax.swing.JPanel implements Form<Date
 
     @Override
     public void cleanData() {
-        inicio.setValue(new Date());
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -1);
+        inicio.setValue(c.getTime());
         fin.setValue(new Date());
     }
 

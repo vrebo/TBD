@@ -9,13 +9,14 @@ package org.silo.vista.reportes;
  *
  * @author VREBO
  */
-public class PanelCopias extends javax.swing.JPanel {
+public class PanelCopias extends PanelGenerador {
 
     /**
      * Creates new form PanelCopias
      */
     public PanelCopias() {
         initComponents();
+        nombreReporte = "reporte-copias";
     }
 
     /**
@@ -27,31 +28,21 @@ public class PanelCopias extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCheckBox1 = new javax.swing.JCheckBox();
-
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Reporte de copias en inventario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
-
-        jCheckBox1.setText("Agrupar resultado por estado de la copia.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jCheckBox1)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 225, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jCheckBox1)
-                .addContainerGap(207, Short.MAX_VALUE))
+            .addGap(0, 276, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
     // End of variables declaration//GEN-END:variables
 }

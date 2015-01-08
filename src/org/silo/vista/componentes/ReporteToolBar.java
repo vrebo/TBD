@@ -19,7 +19,11 @@ public class ReporteToolBar extends MyToolBar {
     public JButton getNext() {
         return next;
     }
-    
+
+    public JButton getDefaultZoom() {
+        return defaultZoom;
+    }
+       
     private void initComponents(){
         before = makeNavigationButton(
                 "circle_back_arrow_outline_stroke.png", 

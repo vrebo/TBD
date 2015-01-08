@@ -136,7 +136,7 @@ public class PDFHelper {
         return false;
     }
 
-    public boolean generarReporteEmpleadosMensualEstado() throws IOException {
+    public boolean generarReporteEmpleadosMensualEstado(Date fechaInicio, Date fechaFin) {
         try {
             DataBaseHelper dbh = new DataBaseHelper();
             //Solo para comprobar si hay registros
@@ -160,7 +160,7 @@ public class PDFHelper {
                 tabla = new PdfPTable(5);
                 tabla.setWidthPercentage(100);
                 dbh.crearConexion();
-                String[] columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Laborando");
+                String[] columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Laborando", fechaInicio, fechaFin);
                 dbh.cerrarConexion();
                 addTitulosEmpleado(tabla);
                 addRegistros(columnas, tabla);
@@ -176,7 +176,7 @@ public class PDFHelper {
                 tabla = new PdfPTable(5);
                 tabla.setWidthPercentage(100);
                 dbh.crearConexion();
-                columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Incapacitado");
+                columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Incapacitado", fechaInicio, fechaFin);
                 dbh.cerrarConexion();
                 addTitulosEmpleado(tabla);
                 addRegistros(columnas, tabla);
@@ -192,7 +192,7 @@ public class PDFHelper {
                 tabla = new PdfPTable(5);
                 tabla.setWidthPercentage(100);
                 dbh.crearConexion();
-                columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Liquidado");
+                columnas = dbh.seleccionarDatosEmpleadoMensualEstado("Liquidado", fechaInicio, fechaFin);
                 dbh.cerrarConexion();
                 addTitulosEmpleado(tabla);
                 addRegistros(columnas, tabla);
@@ -386,6 +386,7 @@ public class PDFHelper {
             DataBaseHelper dbh = new DataBaseHelper();
             //Solo para comprobar si hay registros
             String columna = probarRegistros(dbh, "select * from pelicula;");
+            System.out.println(columna);
             if (columna.length() > 0) {
                 doc = inicializarDocumento();
                 doc.open();
@@ -451,6 +452,7 @@ public class PDFHelper {
                 JOptionPane.showMessageDialog(null, "Documento creado");
                 return true;
             } else {
+                System.out.println("No existen registros.");
                 JOptionPane.showMessageDialog(null, "No existen registros.\nNo se puede crear el documento.");
             }
         } catch (IOException | DocumentException | SQLException ex) {

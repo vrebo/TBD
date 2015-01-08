@@ -6,7 +6,6 @@
 package org.silo.vista.reportes;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,22 +21,23 @@ import org.silo.utils.pdf.PDFHelper;
  *
  * @author VREBO
  */
-public class GeneradorReporte extends javax.swing.JPanel {
+public abstract class GeneradorReporte extends javax.swing.JPanel {
 
     /**
      * Creates new form GeneradorReporte
      */
     private JPanel leftPanel;
-    private JPanel rightPanel;
-    private String rutaUltimoReporte;
+    private PanelPDF rightPanel;
+    private String urlUltimoReporte;
 
     public GeneradorReporte() {
         initComponents();
     }
 
-    public GeneradorReporte(JPanel leftPanel, JPanel rightPanel) {
+    public GeneradorReporte(JPanel leftPanel, String reporteDefault) {
         this.leftPanel = leftPanel;
-        this.rightPanel = rightPanel;
+        this.urlUltimoReporte = reporteDefault;
+        this.rightPanel = new PanelPDF(reporteDefault);
         initComponents();
         _initComponents();
         installListeners();
@@ -93,61 +93,100 @@ public class GeneradorReporte extends javax.swing.JPanel {
         jPanel2.add(rightPanel, "Center");
     }
 
+    private void actualizaPDF() {
+        jPanel2.remove(rightPanel);
+        rightPanel = new PanelPDF(urlUltimoReporte);
+        jPanel2.add(rightPanel, "Center");
+        getParent().repaint();
+    }
+
     private void installListeners() {
         generadorToolBar1.getCreateReport().addActionListener((ActionEvent e) -> {
             String nombre = ((PanelGenerador) leftPanel).getNombreReporte();
             System.out.println(nombre);
-            PDFHelper pdf = new PDFHelper();
+            PDFHelper pdfHelper = new PDFHelper();
             switch (nombre) {
                 case "reporte-clientes":
                     Date[] intervalo = ((PanelClientes) leftPanel).getData();
-                    pdf.generarReporteRegistroMensualClientes(intervalo[0], intervalo[1]);
-                    jPanel2.remove(rightPanel);
-                    rutaUltimoReporte = pdf.getRuta();
-                    rightPanel = new PanelPDF(rutaUltimoReporte);
-                    jPanel2.add(rightPanel, "Center");
-                    getParent().repaint();
+                    pdfHelper.generarReporteRegistroMensualClientes(intervalo[0], intervalo[1]);
+                    urlUltimoReporte = pdfHelper.getRuta();
+                    actualizaPDF();
                     break;
                 case "reporte-empleado":
                     Object[] datosReporte = ((PanelEmpleados) leftPanel).getData();
                     boolean agrupar = (boolean) datosReporte[0];
+                    Date[] intervalo1 = (Date[]) datosReporte[1];
                     System.out.println(agrupar);
                     if (agrupar) {
-                        try {
-                            pdf.generarReporteEmpleadosMensualEstado();
-                        } catch (IOException ex) {
-                            Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }else{
-                        Date[] intervalo1 = (Date[])datosReporte[1];
-                        pdf.generarReporteRegistroMensualEmpleados(intervalo1[0], intervalo1[1]);
+                        pdfHelper.generarReporteEmpleadosMensualEstado(intervalo1[0], intervalo1[1]);
+                    } else {
+                        pdfHelper.generarReporteRegistroMensualEmpleados(intervalo1[0], intervalo1[1]);
                     }
-                    jPanel2.remove(rightPanel);
-                    rutaUltimoReporte = pdf.getRuta();
-                    rightPanel = new PanelPDF(rutaUltimoReporte);
-                    jPanel2.add(rightPanel, "Center");
-                    getParent().repaint();
+                    urlUltimoReporte = pdfHelper.getRuta();
+                    actualizaPDF();
+                    break;
+                case "reporte-peliculas":
+                    String reporte = ((PanelPeliculas) leftPanel).getData();
+                    System.out.println(reporte);
+                    boolean result = false;
+                    switch (reporte) {
+                        case "reporte-anio":
+                            result = pdfHelper.generarReportePeliculasInventarioAnio();
+                            break;
+                        case "reporte-clasificacion":
+                            result = pdfHelper.generarReportePeliculasInventarioClasificacion();
+                            break;
+                        case "reporte-genero":
+                            result = pdfHelper.generarReportePeliculasInventarioGenero();
+                            break;
+                    }
+                    if (result) {
+                        urlUltimoReporte = pdfHelper.getRuta();
+                        actualizaPDF();
+                    }
+                    break;
+                case "reporte-copias":
+                    if (pdfHelper.generaReporteCopiasEstado()) {
+                        urlUltimoReporte = pdfHelper.getRuta();
+                        actualizaPDF();
+                    }
+                    break;
+                case "reporte-ventas":
+                    datosReporte = ((PanelVentas) leftPanel).getData();
+                    agrupar = (boolean) datosReporte[0];
+                    System.out.println(agrupar);
+                    intervalo = (Date[]) datosReporte[1];
+                    if (agrupar) {
+                        pdfHelper.generarReporteMensualVentasEmpleado(intervalo[0], intervalo[1]);
+                    } else {
+                        pdfHelper.generarReporteMensualVentas(intervalo[0], intervalo[1]);
+                    }
+                    urlUltimoReporte = pdfHelper.getRuta();
+                    actualizaPDF();
                     break;
             }
         });
-
-        generadorToolBar1.getSaveReport().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jf = new JFileChooser();
-                int opcion = jf.showSaveDialog(null);
-                if (opcion == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        File origen = new File(rutaUltimoReporte);
-                        File destino = jf.getSelectedFile();
-                        Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        generadorToolBar1.getSaveReport().addActionListener((ActionEvent e) -> {
+            JFileChooser jf = new JFileChooser();
+            int opcion = jf.showSaveDialog(null);
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File origen = new File(urlUltimoReporte);
+                    File destino = new File(jf.getSelectedFile().getAbsolutePath() + ".pdf");
+                    Files.copy(origen.toPath(), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(GeneradorReporte.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+        });
+        reporteToolBar2.getBefore().addActionListener((ActionEvent e) -> {
+            rightPanel.paginaAnterior();
+        });
+        reporteToolBar2.getNext().addActionListener((ActionEvent e) -> {
+            rightPanel.paginaSiguiente();
+        });
+        reporteToolBar2.getDefaultZoom().addActionListener((ActionEvent e) -> {
+            rightPanel.restauraZoom();
         });
     }
 }

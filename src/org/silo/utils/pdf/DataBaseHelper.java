@@ -100,20 +100,38 @@ public class DataBaseHelper {
         return array.toArray(new String[0]);
     }
 
-    public String[] seleccionarDatosEmpleadoMensualEstado(String estado) {
+    public String[] seleccionarDatosEmpleadoMensualEstado(
+            String estado, Date fechaInicio, Date fechaFin) {
         ArrayList<String> array = new ArrayList<>();
         try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT empleado_id, "
+                    + "coalesce(empleado_nombre||' '||empleado_appater||' '"
+                    + "||empleado_apmater), \n"
+                    + "       coalesce('Entrada: "
+                    + "'||extract(hour from empleado_horaentrada)||':'"
+                    + "||extract(minute from empleado_horaentrada) ||'\n'||"
+                    + "'Salida'||empleado_horasalida),\n"
+                    + "       empleado_fecharegistro, empleado_sueldo\n"
+                    + "  FROM empleado\n"
+                    + "  WHERE empleado_edo = ?"
+                    + "AND empleado_fecharegistro >= ?\n"
+                    + "AND empleado_fecharegistro <= ?;");
+            ps.setString(1, estado);
+            ps.setDate(2, new java.sql.Date(fechaInicio.getTime()));
+            ps.setDate(3, new java.sql.Date(fechaFin.getTime()));
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT empleado_id, "
-                                                  + "coalesce(empleado_nombre||' '||empleado_appater||' '"
-                                                  + "||empleado_apmater), \n"
-                                                  + "       coalesce('Entrada: "
-                                                  + "'||extract(hour from empleado_horaentrada)||':'"
-                                                  + "||extract(minute from empleado_horaentrada) ||'\n'||"
-                                                  + "'Salida'||empleado_horasalida),\n"
-                                                  + "       empleado_fecharegistro, empleado_sueldo\n"
-                                                  + "  FROM empleado\n"
-                                                  + "  WHERE empleado_edo = '" + estado + "';");
+            ResultSet rs = statement.executeQuery(
+                    "SELECT empleado_id, "
+                    + "coalesce(empleado_nombre||' '||empleado_appater||' '"
+                    + "||empleado_apmater), \n"
+                    + "       coalesce('Entrada: "
+                    + "'||extract(hour from empleado_horaentrada)||':'"
+                    + "||extract(minute from empleado_horaentrada) ||'\n'||"
+                    + "'Salida'||empleado_horasalida),\n"
+                    + "       empleado_fecharegistro, empleado_sueldo\n"
+                    + "  FROM empleado\n"
+                    + "  WHERE empleado_edo = '" + estado + "';");
             while (rs.next()) {
                 String datosEmpleado = "";
                 datosEmpleado += rs.getString(1) + "&";

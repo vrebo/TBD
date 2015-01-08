@@ -6,7 +6,10 @@
 package org.silo.test.reportes;
 
 import org.silo.vista.reportes.GeneradorReporteClientes;
+import org.silo.vista.reportes.GeneradorReporteCopias;
 import org.silo.vista.reportes.GeneradorReporteEmpleados;
+import org.silo.vista.reportes.GeneradorReportePeliculas;
+import org.silo.vista.reportes.GeneradorReporteVentas;
 
 /**
  *
@@ -24,6 +27,12 @@ public class TestGeneradoresReportes extends javax.swing.JFrame {
                             );
         jTabbedPane1.addTab("Generador de reportes de Empleados", 
                             new GeneradorReporteEmpleados());
+        jTabbedPane1.addTab("Generador de reportes de Películas", 
+                            new GeneradorReportePeliculas());
+        jTabbedPane1.addTab("Generador de reportes de Copias", 
+                            new GeneradorReporteCopias());
+        jTabbedPane1.addTab("Generador de reportes de Ventas", 
+                            new GeneradorReporteVentas());
         pack();
     }
 

@@ -67,9 +67,9 @@ public class Listener extends KeyAdapter implements ActionListener {
                 }
                 break;
             case "Empleados_Mensual_Estado":
-                if (pdf.generarReporteEmpleadosMensualEstado()) {
-                    abrirPDF(pdf);
-                }
+//                if (pdf.generarReporteEmpleadosMensualEstado()) {
+//                    abrirPDF(pdf);
+//                }
                 break;
             case "General_Peliculas_Inventario":
                 if (pdf.generarReporteGeneralPeliculasInventario()) {

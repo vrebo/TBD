@@ -8,6 +8,8 @@ package org.silo.test.catalogos;
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.silo.modelos.bo.Conexion;
 import org.silo.modelos.dao.DataBaseHelper;

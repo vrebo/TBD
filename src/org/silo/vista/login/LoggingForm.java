@@ -91,10 +91,11 @@ public class LoggingForm extends javax.swing.JPanel {
         DataBaseHelper.setConexion(conexion);
         try {
             if (DataBaseHelper.testConexion(conexion)) {
-                System.out.println("alalalalalalalal");
+                System.out.println("Conexión éxitosa");
                 DataBaseHelper.setConexion(conexion);
                 VistaPrincipal vista = (VistaPrincipal) contenedor;
                 vista.initCatalogos();
+                vista.initReportes();
                 vista.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 vista.getJMenuBar().setVisible(true);
                 vista.setContentPane(vista.getjDesktopPane1());
