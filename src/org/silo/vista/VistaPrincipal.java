@@ -59,7 +59,7 @@ public class VistaPrincipal extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Información Lord Ordo");
 
-        String url = "/images/Silo2T.png";
+        String url = "/images/Silo3-ico2.png";
         setIconImage(new ImageIcon(getClass().getResource(url)).getImage());
 //        setUndecorated(true);//Verdadero FullScreen HD
 
