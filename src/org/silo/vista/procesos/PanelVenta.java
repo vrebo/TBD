@@ -6,6 +6,7 @@
 package org.silo.vista.procesos;
 
 import javax.swing.ListModel;
+import org.silo.vista.componentes.CopiaListModel;
 import org.silo.vista.componentes.FilteredListModel;
 
 /**
@@ -220,7 +221,7 @@ public class PanelVenta extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     
     private void _initComponents(){
-        ListModel source;
+        ListModel source = new CopiaListModel();
         
         FilteredListModel filteredModel = new FilteredListModel(null);
         lista.setModel(null);

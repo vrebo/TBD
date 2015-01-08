@@ -101,6 +101,8 @@ public class FormularioEmpleado extends javax.swing.JPanel implements Form<Emple
         hSalida.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
         hSalida.setEditor(new javax.swing.JSpinner.DateEditor(hSalida, "hh:mm a"));
         add(hSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 90, -1));
+
+        sueldo.setPrompt("Sueldo");
         add(sueldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 100, -1));
 
         fechaRegistro.setModel(new javax.swing.SpinnerDateModel());

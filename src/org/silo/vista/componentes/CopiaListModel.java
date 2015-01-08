@@ -17,6 +17,8 @@ public class CopiaListModel extends AbstractListModel<CopiaPelicula> {
 
     private List<CopiaPelicula> data = new java.util.ArrayList<>();
 
+    public CopiaListModel(){}
+    
     @Override
     public int getSize() {
         return data.size();

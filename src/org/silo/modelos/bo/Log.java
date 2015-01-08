@@ -13,7 +13,7 @@ import java.util.Date;
  * @param <E>
  */
 public class Log<E> {
-    
+
     private String operacion;
     private Date fechaOperacion;
     private String id;
@@ -56,5 +56,5 @@ public class Log<E> {
     public void setEntidad(E entidad) {
         this.entidad = entidad;
     }
-        
+
 }
