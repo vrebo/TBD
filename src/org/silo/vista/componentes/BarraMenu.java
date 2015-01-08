@@ -25,8 +25,8 @@ public class BarraMenu extends JMenuBar {
         new JMenuItem("Empleados"),
         new JMenuItem("Películas"),
         new JMenuItem("Copias de películas"),
-        new JMenuItem("Genero"),
-        new JMenuItem("Venta")
+        new JMenuItem("Genero")
+//        new JMenuItem("Venta")
     };
 
     private final JMenuItem[] itemsMenuProcesos = {

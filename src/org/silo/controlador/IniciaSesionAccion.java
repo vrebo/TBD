@@ -12,7 +12,6 @@ public class IniciaSesionAccion extends Accion {
     
     @Override
     public void tarea(Container contenedor, Object... args) {
-        System.out.println("IniciarSesionAccion");
         String user = (String) args[0];
         String pasword = (String) args[1];
 //        String user = "postgres";

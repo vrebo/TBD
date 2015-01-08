@@ -29,7 +29,7 @@ public class CopiaListModel extends AbstractListModel<CopiaPelicula> {
     
     public void setData(List<CopiaPelicula> data){
         this.data = data;
-//        fire
+//        fireContentsChanged(data, index0, index1);
     }
 
 }
