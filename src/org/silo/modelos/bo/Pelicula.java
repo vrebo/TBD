@@ -18,9 +18,20 @@ public class Pelicula {
     public Pelicula() {
     }
 
+    
+    
+    
+
     public Pelicula(
             long idPelicula, String estelares, String titulo, Date anioEstreno,
             String director, String clasificacion, Date duracion, Imagen imagen) {
+        this(idPelicula, estelares, titulo, anioEstreno, director, clasificacion, duracion);
+        this.imagen = imagen;
+    }
+
+    public Pelicula(
+            long idPelicula, String estelares, String titulo, Date anioEstreno,
+            String director, String clasificacion, Date duracion) {
         Validator.checkForRange(Long.MIN_VALUE, Long.MAX_VALUE, idPelicula,
                                 "El id está fuera del rango permitido min "
                                 + Long.MIN_VALUE + " max " + Long.MAX_VALUE);
@@ -30,7 +41,6 @@ public class Pelicula {
         Validator.checkForContent(director, "El director no puede estar vacío.");
         Validator.checkForContent(clasificacion, "La clasificación no puede estar vacía.");
         Validator.checkForNull(duracion, "La duración no puede ser null.");
-        Validator.checkForNull(imagen, "La imagen no puede ser null.");
         this.idPelicula = idPelicula;
         this.estelares = estelares;
         this.titulo = titulo;
@@ -38,7 +48,12 @@ public class Pelicula {
         this.director = director;
         this.clasificacion = clasificacion;
         this.duracion = duracion;
-        this.imagen = imagen;
+    }
+
+    public Pelicula(long idPelicula, Genero genero, String estelares, String titulo, Date anioEstreno, String director, String clasificacion, Date duracion) {
+        this(idPelicula, estelares, titulo, anioEstreno, director, clasificacion, duracion);
+        Validator.checkForNull(genero, "El genero no puede ser null.");
+        this.genero = genero;
     }
 
     public Pelicula(long idPelicula, Genero genero, String estelares, String titulo, Date anioEstreno, String director, String clasificacion, Date duracion, Imagen imagen) {

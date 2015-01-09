@@ -13,6 +13,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import org.silo.modelos.bo.Cliente;
+import org.silo.modelos.bo.CopiaPelicula;
+import org.silo.modelos.bo.Empleado;
+import org.silo.modelos.bo.Genero;
+import org.silo.modelos.bo.Log;
+import org.silo.modelos.bo.Pelicula;
+import org.silo.modelos.bo.Usuario;
+import org.silo.modelos.bo.Venta;
 
 /**
  *
@@ -428,4 +436,196 @@ public class DataBaseHelper {
         }
     }
 
+    public ArrayList<Log<Cliente>> getLogClienteData() {
+        ArrayList<Log<Cliente>> array = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT cliente_log_operation, "
+                                                  + "cliente_log_stamp, cliente_log_userid, \n"
+                                                  + "       cliente_log_cliente_id, cliente_log_cliente_nombre, "
+                                                  + "cliente_log_cliente_appater, \n"
+                                                  + "       cliente_log_cliente_apmater, "
+                                                  + "cliente_log_cliente_fecharegistro, \n"
+                                                  + "       cliente_log_cliente_fechanacimiento\n"
+                                                  + "  FROM cliente_log;");
+            while (rs.next()) {
+                Log<Cliente> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Cliente cliente = new Cliente(rs.getString(4),
+                                              rs.getString(5), rs.getString(6), rs.getString(7),
+                                              rs.getDate(8), rs.getDate(9));
+                log.setEntidad(cliente);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
+
+    public ArrayList<Log<CopiaPelicula>> getLogCopiaPeliculaData() {
+        ArrayList<Log<CopiaPelicula>> array = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT copia_pelicula_log_operation, "
+                                                  + "copia_pelicula_log_stamp, coipa_pelicula_log_userid, \n"
+                                                  + "       coipa_pelicula_log_copia_id, coipa_pelicula_log_copia_fmto, "
+                                                  + "coipa_pelicula_log_copia_fechaadquisicion, \n"
+                                                  + "       coipa_pelicula_log_copia_precio, coipa_pelicula_log_copia_edo, \n"
+                                                  + "       coipa_pelicula_log_pelicula_id\n"
+                                                  + "  FROM copia_pelicula_log;");
+            while (rs.next()) {
+                Log<CopiaPelicula> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Pelicula pelicula = new Pelicula();
+                pelicula.setIdPelicula(rs.getLong("coipa_pelicula_log_pelicula_id"));
+                CopiaPelicula copia = new CopiaPelicula(rs.getLong(4),pelicula,
+                                                        rs.getString(5), rs.getDate(6), rs.getDouble(7), rs.getString(8));
+                log.setEntidad(copia);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
+
+    public ArrayList<Log<Empleado>> getLogEmpleadoData() {
+        ArrayList<Log<Empleado>> array = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT empleado_log_operation, "
+                                                  + "empleado_log_stamp, empleado_log_userid, \n"
+                                                  + "       empleado_log_empleado_id,"
+                                                  + " empleado_log_empleado_nombre, "
+                                                  + "empleado_log_empleado_appater, \n"
+                                                  + "       empleado_log_empleado_apmater, "
+                                                  + "empleado_log_empleado_horaentrada, \n"
+                                                  + "       empleado_log_empleado_horasalida, "
+                                                  + "empleado_log_empleado_fechanacimiento, \n"
+                                                  + "       empleado_log_empleado_fecharegistro,"
+                                                  + " empleado_log_empleado_edo, \n"
+                                                  + "       empleado_log_empleado_puesto,"
+                                                  + " empleado_log_empleado_sueldo\n"
+                                                  + "  FROM empleado_log;");
+            while (rs.next()) {
+                Log<Empleado> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Empleado empleado = new Empleado(rs.getString(4), rs.getDate(8),
+                                                 rs.getDate(9), rs.getString(12), rs.getString(13), rs.getDouble(14),
+                                                 rs.getString(5), rs.getString(6), rs.getString(7),
+                                                 rs.getDate(10), rs.getDate(11));
+                log.setEntidad(empleado);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
+
+    public ArrayList<Log<Genero>> getLogGeneroData() {
+        ArrayList<Log<Genero>> array = new ArrayList<>();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT genero_log_operation, "
+                                                  + "genero_log_stamp, genero_log_userid, genero_log_genero_id, \n"
+                                                  + "       genero_log_genero_nombre, genero_log_genero_descripcion\n"
+                                                  + "  FROM genero_log;");
+            while (rs.next()) {
+                Log<Genero> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Genero genero = new Genero(rs.getLong(4), rs.getString(5), rs.getString(6));
+                log.setEntidad(genero);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
+
+    public ArrayList<Log<Pelicula>> getLogPeliculaData() {
+        ArrayList<Log<Pelicula>> array = new ArrayList();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(
+                    "SELECT pelicula_log_operation, "
+                    + "pelicula_log_stamp, pelicula_log_userid, \n"
+                    + "       pelicula_log_pelicula_id, pelicula_log_pelicula_titulo, "
+                    + "pelicula_log_pelicula_anioestreno, \n"
+                    + "       pelicula_log_pelicula_director, "
+                    + "pelicula_log_pelicula_estelares, \n"
+                    + "       pelicula_log_pelicula_duracion, "
+                    + "pelicula_log_pelicula_clasif, \n"
+                    + "       pelicula_log_genero_id\n"
+                    + "  FROM pelicula_log;");
+            while (rs.next()) {
+                Log<Pelicula> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Genero genero = new Genero();
+                genero.setIdGenero(rs.getLong("pelicula_log_genero_id"));
+                String anio = rs.getString("pelicula_log_pelicula_anioestreno");
+                Date anioEstreno = new Date();
+                anioEstreno.setYear(Integer.parseInt(anio.split(" ")[0]));
+                Pelicula pelicula = new Pelicula(
+                        rs.getLong("pelicula_log_pelicula_id"),
+                        genero,
+                        rs.getString("pelicula_log_pelicula_estelares"),
+                        rs.getString("pelicula_log_pelicula_titulo"),
+                        anioEstreno,
+                        rs.getString("pelicula_log_pelicula_director"),
+                        rs.getString("pelicula_log_pelicula_clasif"),
+                        rs.getDate("pelicula_log_pelicula_duracion"));
+                log.setEntidad(pelicula);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
+
+//    public ArrayList<Log<Usuario>> getLogUsuarioData() {
+//        ArrayList<Log<Usuario>> array = new ArrayList<>();
+//        try {
+//            statement = connection.createStatement();
+//            ResultSet rs = statement.executeQuery("SELECT usuario_log_operation, "
+//                                                  + "usuario_log_stamp, usuario_log_userid, \n"
+//                                                  + "       usuario_log_usuario_id, usuario_log_usename, usuario_log_privilegios\n"
+//                                                  + "  FROM usuario_log;");
+//            while (rs.next()) {
+//                Log<Usuario> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+//                Empleado empleado = new Empleado();
+//                empleado.setIdEmpleado(rs.getString(5));
+//                Usuario usuario = new Usuario(rs.getLong(4), empleado, rs.getLong(6));
+//                log.setEntidad(usuario);
+//                array.add(log);
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//        return array;
+//    }
+
+    public ArrayList<Log<Venta>> getLogVentaData() {
+        ArrayList<Log<Venta>> array = new ArrayList();
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT venta_log_operation, "
+                                                  + "venta_log_stamp, venta_log_userid, venta_log_venta_id, \n"
+                                                  + "       venta_log_venta_fecha, venta_log_venta_neto, "
+                                                  + "venta_log_empleado_id, \n"
+                                                  + "       venta_log_cliente_id\n"
+                                                  + "  FROM venta_log;");
+            while (rs.next()) {
+                Log<Venta> log = new Log(rs.getString(1), rs.getDate(2), rs.getString(3));
+                Cliente cliente = new Cliente();
+                Empleado empleado = new Empleado();
+                cliente.setIdCliente(rs.getString(7));
+                empleado.setIdEmpleado(rs.getString(8));
+                Venta venta = new Venta(rs.getLong(4), cliente, empleado, rs.getDate(5), rs.getDouble(6));
+                log.setEntidad(venta);
+                array.add(log);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return array;
+    }
 }

@@ -20,6 +20,26 @@ public class Empleado extends Persona {
         Validator.checkForContent(idEmpleado, "El id no puede estar vacío.");
         this.idEmpleado = idEmpleado;
     }
+    
+    public Empleado(String idEmpleado, Date horaEntrada, Date horaSalida, String estado, String puesto, double sueldo, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro) {
+        this(horaEntrada, horaSalida, estado, puesto, sueldo, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro);
+        Validator.checkForContent(idEmpleado, "El id no puede estar vacío.");
+        this.idEmpleado = idEmpleado;
+    }
+    
+    public Empleado(Date horaEntrada, Date horaSalida, String estado, String puesto, double sueldo, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro) {
+        super(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro);
+        Validator.checkForNull(horaEntrada, "La hora de entrada no puede ser null");
+        Validator.checkForNull(horaSalida, "La hora de entrada no puede ser null");
+        Validator.checkForContent(estado, "El estado no puede estar vacío.");
+        Validator.checkForContent(puesto, "El puesto no puede estar vacío.");
+        Validator.checkForPositive(sueldo, "El sueldo no puede ser negativo");
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
+        this.estado = estado;
+        this.puesto = puesto;
+        this.sueldo = sueldo;
+    }
 
     public Empleado(Date horaEntrada, Date horaSalida, String estado, String puesto, double sueldo, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
         super(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);

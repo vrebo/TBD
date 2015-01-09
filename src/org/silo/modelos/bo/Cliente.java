@@ -10,6 +10,12 @@ public class Cliente extends Persona {
     public Cliente() {
     }
 
+    public Cliente(String idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro) {
+        super(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro);
+        Validator.checkForContent(idCliente, "El id no puede estar vacío.");
+        this.idCliente = idCliente;
+    }
+    
     public Cliente(String idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
         super(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro, imagen);
         Validator.checkForContent(idCliente, "El id no puede estar vacío.");

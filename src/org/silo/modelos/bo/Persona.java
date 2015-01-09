@@ -14,19 +14,22 @@ public abstract class Persona {
 
     public Persona() {
     }
-
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
+    
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro) {
         Validator.checkForContent(nombre, "El nombre no puede estar vacío.");
         Validator.checkForContent(apellidoPaterno, "El apellido paterno no puede estar vacío.");
         Validator.checkForContent(apellidoMaterno, "El apellido materno no puede estar vacío.");
         Validator.checkForNull(fechaNacimiento, "La fecha de nacimiento no puede estar vacía.");
         Validator.checkForNull(fechaRegistro, "La fecha de registro no puede estar vacía.");
-        Validator.checkForNull(imagen, "La imagen no puede estar vacía.");
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, Date fechaNacimiento, Date fechaRegistro, Imagen imagen) {
+        this(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, fechaRegistro);
         this.imagen = imagen;
     }
 

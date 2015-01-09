@@ -20,7 +20,7 @@ import org.silo.vista.reportes.GeneradorReporteCopias;
 import org.silo.vista.reportes.GeneradorReporteEmpleados;
 import org.silo.vista.reportes.GeneradorReportePeliculas;
 import org.silo.vista.reportes.GeneradorReporteVentas;
-import org.silo.vista.reportes.PanelPeliculas;
+import org.silo.vista.utilerias.PanelBitacora;
 
 public class VistaPrincipal extends JFrame {
 
@@ -41,6 +41,10 @@ public class VistaPrincipal extends JFrame {
     //Ventanas de Procesos
     private MyInternalFrame venta;
 
+    
+    //Ventana de bitacoras
+    private MyInternalFrame bitacora;
+    
     private JDesktopPane jDesktopPane;
     private LoggingForm loggingForm;
 
@@ -98,8 +102,13 @@ public class VistaPrincipal extends JFrame {
         jDesktopPane.add(venta = new MyInternalFrame(
                 "Venta", new PanelVenta()));
     }
+    
+    public void initBitacoras(){
+        jDesktopPane.add(bitacora = new MyInternalFrame(
+                "Bitácoras por tabla", new PanelBitacora()));
+    }
 
-    public LoggingForm getLoggingForm() {
+    public LoggingForm getLoggingForm() { 
         return loggingForm;
     }
 
@@ -151,6 +160,9 @@ public class VistaPrincipal extends JFrame {
         return venta;
     }
 
+    public MyInternalFrame getBitacora() {
+        return bitacora;
+    }
     /**
      * @param args the command line arguments
      */

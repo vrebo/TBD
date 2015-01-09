@@ -17,6 +17,12 @@ public class Usuario {
     
     public Usuario(){ }
 
+    public Usuario(long idUsuario, Empleado empleado, long privilegios) {
+        this.idUsuario = idUsuario;
+        this.empleado = empleado;
+        this.privilegios = privilegios;
+    }
+    
     public long getIdUsuario() {
         return idUsuario;
     }

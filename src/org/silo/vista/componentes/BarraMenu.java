@@ -75,6 +75,15 @@ public class BarraMenu extends JMenuBar {
         "MuestraReportePeliculas"
 //        "ReporteGenero"
     };
+    
+        private final String[] accionesItemsUtileria = {
+        "MuestraRespaldoRestauración",
+        "MuestraBitacoras",
+        "MuestraAltaUsuarios",
+        "MuestraReporteCopias",
+        "MuestraReportePeliculas"
+//        "ReporteGenero"
+    };
 
     public BarraMenu(Container componente) {
         System.out.println("Barra de menú creada");
@@ -108,10 +117,7 @@ public class BarraMenu extends JMenuBar {
         //Agregación de los items al menú Reportes
         addComponentes(jMenuReportes, itemsMenuReporte, accionesItemsReporte);
 
-        for (int i = 0; i < itemsMenuUtileria.length; i++) {
-            jMenuUtilerias.add(itemsMenuUtileria[i]);
-//            itemsMenuSesion[i].setName(accionesItemsSesion[i]);
-        }
+        addComponentes(jMenuUtilerias, itemsMenuUtileria, accionesItemsUtileria);
     }
     
     private void addComponentes(JMenu menu, JMenuItem[] items, String[] acciones){
@@ -127,6 +133,7 @@ public class BarraMenu extends JMenuBar {
         addEventos(itemsMenuSesion, contenedor);        
         addEventos(itemsMenuProcesos, contenedor);
         addEventos(itemsMenuReporte, contenedor);
+        addEventos(itemsMenuUtileria, contenedor);
     }
     
     private void addEventos(JMenuItem[] items, Container contenedor){
