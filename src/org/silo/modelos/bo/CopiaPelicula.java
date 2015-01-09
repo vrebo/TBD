@@ -108,6 +108,6 @@ public class CopiaPelicula {
     @Override
     public String toString() {
         return idCopiaPelicula + " - " + pelicula.getTitulo()
-               + " - Adquirido: " + fechaAdquisicion + " - Sueldo: $" + precio + " - Estado: " + estado;
+               + " - Adquirido: " + fechaAdquisicion + " - Costo: $" + precio + " - Estado: " + estado;
     }
 }

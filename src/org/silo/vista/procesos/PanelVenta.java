@@ -10,7 +10,9 @@ import org.silo.modelos.bo.Cliente;
 import org.silo.modelos.bo.CopiaPelicula;
 import org.silo.modelos.bo.Empleado;
 import org.silo.modelos.bo.Venta;
+import org.silo.modelos.dao.DataBaseHelper;
 import org.silo.modelos.servicios.ServiciosSILO;
+import org.silo.utils.ImageUtils;
 import org.silo.vista.componentes.CopiaListModel;
 import org.silo.vista.componentes.DetalleVentaTableModel;
 import org.silo.vista.componentes.FilteredListModel;
@@ -28,6 +30,7 @@ public class PanelVenta extends javax.swing.JPanel {
     private MyTableModel modeloDetalleVenta;
     private CopiaListModel peliculasDisponibles;
     private boolean ventaValida = false, clienteValido = false;
+    private Empleado vendedor;
 
     /**
      * Creates new form PanelVenta
@@ -96,23 +99,23 @@ public class PanelVenta extends javax.swing.JPanel {
         jXImageView1.setLayout(jXImageView1Layout);
         jXImageView1Layout.setHorizontalGroup(
             jXImageView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
         jXImageView1Layout.setVerticalGroup(
             jXImageView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 130, Short.MAX_VALUE)
+            .addGap(0, 150, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jXImageView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 140, 130));
+        jPanel1.add(jXImageView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 180, 150));
 
         jLabel11.setText("Código:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 50, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 50, -1));
 
         jLabel12.setText("Título:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 50, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 50, -1));
 
         jLabel13.setText("Precio:");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 50, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 50, -1));
 
         searchField.setPrompt("Buscar");
         searchField.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +123,7 @@ public class PanelVenta extends javax.swing.JPanel {
                 searchFieldActionPerformed(evt);
             }
         });
-        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 160, -1));
+        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 160, -1));
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         btnAgregar.setText("<");
@@ -129,7 +132,7 @@ public class PanelVenta extends javax.swing.JPanel {
                 btnAgregarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
+        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
 
         lista.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -143,18 +146,18 @@ public class PanelVenta extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(lista);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 90));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 290, 90));
 
         idCopia.setText("XXX");
         idCopia.setToolTipText("");
-        jPanel1.add(idCopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
+        jPanel1.add(idCopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
         titulo.setText("Lorem Ipsum");
-        jPanel1.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+        jPanel1.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
 
         precio.setText("0.0");
         precio.setToolTipText("");
-        jPanel1.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
+        jPanel1.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, -1, -1));
 
         jSplitPane1.setRightComponent(jPanel1);
 
@@ -174,8 +177,6 @@ public class PanelVenta extends javax.swing.JPanel {
 
         cliente.setPrompt("Nombre ");
         jPanel2.add(cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, -1));
-
-        empleado.setText("E1420254554140 Sheldon Cooper QQ");
         jPanel2.add(empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 310, -1));
 
         jLabel4.setText("Fecha:");
@@ -244,6 +245,8 @@ public class PanelVenta extends javax.swing.JPanel {
         if (ventaValida && clienteValido) {
             venta.setFechaVenta(new java.util.Date());
             ServiciosSILO.getServicios().altaVenta(venta);
+            ventaValida = false;
+            clienteValido = false;
 //            System.out.println("Venta");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -292,9 +295,7 @@ public class PanelVenta extends javax.swing.JPanel {
             Cliente c = ServiciosSILO.getServicios().buscaClientePorID(id);
             cliente.setText(c.getNombreCompleto());
             venta.setCliente(c);
-            Empleado e = new Empleado();
-            e.setIdEmpleado("E1420254554140");
-            venta.setEmpleado(e);
+            venta.setEmpleado(vendedor);
             clienteValido = true;
         }
     }//GEN-LAST:event_idClienteActionPerformed
@@ -355,6 +356,8 @@ public class PanelVenta extends javax.swing.JPanel {
         initListaCopias();
         (modeloDetalleVenta = new DetalleVentaTableModel()).setData(venta.getDetalleVenta());
         tabla.setModel(modeloDetalleVenta);
+        vendedor = DataBaseHelper.getUsuarioLogeado().getEmpleado();
+        empleado.setText(vendedor.getIdEmpleado() + " " + vendedor.getNombreCompleto());
     }
 
     private void updateDatosCopia() {
@@ -362,16 +365,13 @@ public class PanelVenta extends javax.swing.JPanel {
             idCopia.setText(Long.toString(copiaActual.getIdCopiaPelicula()));
             titulo.setText(copiaActual.getPelicula().getTitulo());
             precio.setText("$" + copiaActual.getPrecio());
-            jXImageView1.setImage(copiaActual.getPelicula().getImagen().getImagen().getImage());
+            jXImageView1.setImage(ImageUtils.minimizeImage(copiaActual.getPelicula().getImagen().getImagen()));
         } else {
-            idCopia.setText("XXXX");
-            titulo.setText("Lorem ipsum");
-            precio.setText("$ 0.0");
-            jXImageView1.setImage(new ImageIcon("resources/images/Silo3-ico2.png").getImage());
+            limpiarVistaCopia();
         }
     }
 
-    private void initListaCopias() {
+    public void initListaCopias() {
         (peliculasDisponibles = new CopiaListModel()).
                 setData(ServiciosSILO.getServicios().copiasDisponibles());
         filteredListModel = new FilteredListModel(peliculasDisponibles);
@@ -384,6 +384,25 @@ public class PanelVenta extends javax.swing.JPanel {
 
     public void setVenta(Venta venta) {
         this.venta = venta;
+    }
+
+    private void limpiarVistaCopia() {
+        idCopia.setText("XXXX");
+        titulo.setText("Seleccióna una copia");
+        precio.setText("$ 0.0");
+        jXImageView1.setImage(ImageUtils.minimizeImage(new ImageIcon("resources/images/Silo3-ico2.png")));
+    }
+
+    public void limpiarFormulario() {
+        idCliente.setText("");
+        cliente.setText("");
+        montoPago.setText("");
+        recibido.setText("");
+        cambio.setText("");
+        venta.getDetalleVenta().clear();
+        modeloDetalleVenta.setData(venta.getDetalleVenta());
+        venta.calculaNetoVenta();
+        limpiarVistaCopia();
     }
 
 }

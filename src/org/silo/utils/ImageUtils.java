@@ -6,6 +6,7 @@
 
 package org.silo.utils;
 
+import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
  
@@ -41,5 +42,19 @@ public class ImageUtils {
             System.err.println("Couldn't find file: " + path);
             return null;
         }
+    }
+    
+    public static Image minimizeImage(ImageIcon tmpIcon) {
+        if (tmpIcon.getIconWidth() > 150) {
+            tmpIcon = new ImageIcon(tmpIcon.getImage().
+                    getScaledInstance(150, -1,
+                                      Image.SCALE_DEFAULT));
+        }
+        if (tmpIcon.getIconHeight() > 150) {
+            tmpIcon = new ImageIcon(tmpIcon.getImage().
+                    getScaledInstance(-1, 150,
+                                      Image.SCALE_DEFAULT));
+        }
+        return tmpIcon.getImage();
     }
 }

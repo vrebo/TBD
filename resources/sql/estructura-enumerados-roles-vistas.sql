@@ -233,11 +233,13 @@ GRANT UPDATE ON TABLE cliente, pelicula, copia_pelicula, genero TO GROUP vendedo
 --GRANT UPDATE (detallevta_comentario) ON TABLE detalle_venta TO GROUP vendedor;
 GRANT DELETE ON TABLE cliente, pelicula, copia_pelicula, genero TO GROUP vendedor;
 GRANT SELECT ON TABLE cliente, pelicula, copia_pelicula, genero, venta, detalle_venta TO GROUP vendedor;
-GRANT SELECT (empleado_id, empleado_nombre, empleado_appater, empleado_appater) ON TABLE empleado TO GROUP vendedor;
+GRANT SELECT ON TABLE empleado TO GROUP vendedor;
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO GROUP gerente;
+GRANT ALL ON TABLE usuario TO GROUP gerente;
 GRANT UPDATE ON TABLE venta, detalle_venta TO GROUP gerente;
-GRANT INSERT, UPDATE, DELETE ON empleado TO GROUP gerente;
+GRANT ALL ON empleado TO GROUP gerente;
+GRANT ALL ON cliente TO GROUP gerente;
 
 
 --CREACIÓN DE VIEWS----------------------------------------------------------------------------------------------------

@@ -60,4 +60,10 @@ public abstract class MyTableModel<E> extends AbstractTableModel {
         fireTableRowsDeleted(0, data.size());
         fireTableDataChanged();
     }
+    
+    public void remove(E e){
+        data.remove(e);
+        fireTableRowsDeleted(0, data.size());
+        fireTableDataChanged();
+    }
 }

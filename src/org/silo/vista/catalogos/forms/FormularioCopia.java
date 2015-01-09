@@ -1,9 +1,12 @@
 package org.silo.vista.catalogos.forms;
 
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import org.jdesktop.swingx.JXImageView;
 import org.silo.modelos.bo.CopiaPelicula;
 import org.silo.modelos.bo.Pelicula;
+import org.silo.utils.ImageUtils;
 import org.silo.vista.componentes.ImagePanel;
 
 public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPelicula> {
@@ -34,7 +37,7 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
         jLabel6 = new javax.swing.JLabel();
         fechaAdquisicion = new org.silo.vista.componentes.JXDatePicker();
         estado = new javax.swing.JComboBox();
-        imagePanel1 = new org.silo.vista.componentes.ImagePanel();
+        jXImageView1 = new org.jdesktop.swingx.JXImageView();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -60,11 +63,11 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
 
         jLabel6.setText("Estado:");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
-        add(fechaAdquisicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 90, -1));
+        add(fechaAdquisicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 110, -1));
 
         estado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EN-STOCK", "VENDIDA", "DAÑADA" }));
         add(estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, 110, -1));
-        add(imagePanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        add(jXImageView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 150, 150));
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -73,11 +76,11 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
     private org.silo.vista.componentes.JXDatePicker fechaAdquisicion;
     private javax.swing.JComboBox formato;
     private org.jdesktop.swingx.JXTextField id;
-    private org.silo.vista.componentes.ImagePanel imagePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
+    private org.jdesktop.swingx.JXImageView jXImageView1;
     private org.jdesktop.swingx.JXTextField precio;
     private javax.swing.JComboBox titulo;
     // End of variables declaration//GEN-END:variables
@@ -86,12 +89,11 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
 
     @Override
     public CopiaPelicula getData() {
-        data.setPelicula((Pelicula)titulo.getSelectedItem());
+        data.setPelicula((Pelicula) titulo.getSelectedItem());
         data.setPrecio(Double.parseDouble(precio.getText()));
         data.setEstado(estado.getSelectedItem().toString());
         data.setFormato(formato.getSelectedItem().toString());
         data.setFechaAdquisicion(fechaAdquisicion.getDate());
-        
         return data;
     }
 
@@ -109,7 +111,7 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
         fechaAdquisicion.setDate(data.getFechaAdquisicion());
         formato.setSelectedItem(data.getFormato());
         estado.setSelectedItem(data.getEstado());
-        imagePanel1.setData(data.getPelicula().getImagen());
+        jXImageView1.setImage(ImageUtils.minimizeImage(data.getPelicula().getImagen().getImagen()));
     }
 
     @Override
@@ -120,17 +122,15 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
         fechaAdquisicion.setDate(new Date());
         formato.setSelectedItem(0);
         estado.setSelectedItem(0);
-        imagePanel1.cleanData();
+        jXImageView1.setImage(ImageUtils.minimizeImage(new ImageIcon("resources/images/Silo3A-ico2.png")));
     }
 
     public JComboBox getTitulo() {
         return titulo;
     }
 
-    public ImagePanel getImagePanel1() {
-        return imagePanel1;
+    public JXImageView getjXImageView1() {
+        return jXImageView1;
     }
-    
-    
-    
+
 }

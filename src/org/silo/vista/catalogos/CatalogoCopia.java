@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import org.silo.modelos.bo.CopiaPelicula;
 import org.silo.modelos.bo.Pelicula;
 import org.silo.modelos.servicios.ServiciosSILO;
+import org.silo.utils.ImageUtils;
 import org.silo.vista.catalogos.forms.Form;
 import org.silo.vista.catalogos.forms.FormularioCopia;
 import org.silo.vista.componentes.CopiaPeliculaTableModel;
@@ -62,9 +63,9 @@ public class CatalogoCopia extends Catalogo {
             Object o = titulo.getSelectedItem();
             if (o instanceof Pelicula) {
                 Pelicula pelicula = (Pelicula) o;
-                ((Form) ((FormularioCopia) form)
-                 .getImagePanel1())
-                        .setData(pelicula.getImagen());
+                ((FormularioCopia) form)
+                        .getjXImageView1().setImage(ImageUtils.minimizeImage(pelicula.getImagen().getImagen()));
+
             }
         });
     }

@@ -45,7 +45,7 @@ public class BarraMenu extends JMenuBar {
     private final JMenuItem[] itemsMenuUtileria = {
         new JMenuItem("Respaldo y Restauración"),
         new JMenuItem("Bitacoras"),
-        new JMenuItem("Alta de usuarios en LOIS")
+        new JMenuItem("Alta de usuarios en SILO")
     };
 
     private final String[] accionesItemsSesion = {

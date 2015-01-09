@@ -6,11 +6,11 @@
 package org.silo.vista.componentes;
 
 import org.silo.vista.catalogos.forms.Form;
-import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import org.silo.modelos.bo.Imagen;
+import org.silo.utils.ImageUtils;
 
 /**
  *
@@ -114,20 +114,6 @@ public class ImagePanel extends javax.swing.JPanel implements Form<Imagen> {
         }
     }
 
-    private Image minimizeImage(ImageIcon tmpIcon) {
-        if (tmpIcon.getIconWidth() > 150) {
-            tmpIcon = new ImageIcon(tmpIcon.getImage().
-                    getScaledInstance(150, -1,
-                                      Image.SCALE_DEFAULT));
-        }
-        if (tmpIcon.getIconHeight() > 150) {
-            tmpIcon = new ImageIcon(tmpIcon.getImage().
-                    getScaledInstance(-1, 150,
-                                      Image.SCALE_DEFAULT));
-        }
-        return tmpIcon.getImage();
-    }
-
     @Override
     public Imagen getData() {
         return data;
@@ -141,7 +127,7 @@ public class ImagePanel extends javax.swing.JPanel implements Form<Imagen> {
 
     @Override
     public void updateData() {
-        jXImageView1.setImage(minimizeImage(data.getImagen()));
+        jXImageView1.setImage(ImageUtils.minimizeImage(data.getImagen()));
     }
 
     @Override

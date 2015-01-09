@@ -6,6 +6,8 @@ import javax.swing.JInternalFrame;
 
 public class MyInternalFrame extends JInternalFrame {
 
+    private Component componente;
+    
     public MyInternalFrame(String titulo){
         super(titulo, true, true, true, true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -14,6 +16,7 @@ public class MyInternalFrame extends JInternalFrame {
     public MyInternalFrame(String titulo, Component component){
         this(titulo);
         add(component);
+        componente = component;
         pack();
     }
     
@@ -25,5 +28,9 @@ public class MyInternalFrame extends JInternalFrame {
         int y = deskopSize.height / 2 - catalogoSize.height / 2;
         setLocation(x, y);
         super.show();
+    }
+
+    public Component getComponente() {
+        return componente;
     }
 }

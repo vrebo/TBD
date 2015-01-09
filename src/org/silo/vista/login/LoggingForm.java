@@ -11,7 +11,9 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.silo.modelos.bo.Conexion;
+import org.silo.modelos.bo.Usuario;
 import org.silo.modelos.dao.DataBaseHelper;
+import org.silo.modelos.dao.UsuarioDAO;
 import org.silo.vista.VistaPrincipal;
 
 //import org.losi.controlador.acciones.Accion;
@@ -91,6 +93,9 @@ public class LoggingForm extends javax.swing.JPanel {
         DataBaseHelper.setConexion(conexion);
         try {
             if (DataBaseHelper.testConexion(conexion)) {
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                Usuario usuario = usuarioDAO.buscarPorNombre(user);
+                DataBaseHelper.setUsuarioLogeado(usuario);
                 System.out.println("Conexión éxitosa");
                 DataBaseHelper.setConexion(conexion);
                 VistaPrincipal vista = (VistaPrincipal) contenedor;
