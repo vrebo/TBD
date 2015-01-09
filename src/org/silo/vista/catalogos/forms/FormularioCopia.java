@@ -7,7 +7,6 @@ import org.jdesktop.swingx.JXImageView;
 import org.silo.modelos.bo.CopiaPelicula;
 import org.silo.modelos.bo.Pelicula;
 import org.silo.utils.ImageUtils;
-import org.silo.vista.componentes.ImagePanel;
 
 public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPelicula> {
 
@@ -122,7 +121,7 @@ public class FormularioCopia extends javax.swing.JPanel implements Form<CopiaPel
         fechaAdquisicion.setDate(new Date());
         formato.setSelectedItem(0);
         estado.setSelectedItem(0);
-        jXImageView1.setImage(ImageUtils.minimizeImage(new ImageIcon("resources/images/Silo3A-ico2.png")));
+        jXImageView1.setImage(ImageUtils.minimizeImage(new ImageIcon("resources/images/Silo3-ico2.png")));
     }
 
     public JComboBox getTitulo() {

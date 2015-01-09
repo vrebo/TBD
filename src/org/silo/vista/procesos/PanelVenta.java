@@ -258,7 +258,7 @@ public class PanelVenta extends javax.swing.JPanel {
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (peliculasDisponibles.getSize() != 0) {
+        if (peliculasDisponibles.getSize() != 0 && copiaActual != null) {
             peliculasDisponibles.remove(copiaActual);
             venta.getDetalleVenta().add(copiaActual);
             modeloDetalleVenta.setData(venta.getDetalleVenta());
@@ -272,6 +272,9 @@ public class PanelVenta extends javax.swing.JPanel {
 
     private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
         Object o = lista.getSelectedValue();
+        if(o == null){
+            return;
+        }
         if (o instanceof CopiaPelicula) {
             copiaActual = (CopiaPelicula) o;
             updateDatosCopia();
