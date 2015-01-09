@@ -21,6 +21,7 @@ import org.silo.vista.reportes.GeneradorReporteEmpleados;
 import org.silo.vista.reportes.GeneradorReportePeliculas;
 import org.silo.vista.reportes.GeneradorReporteVentas;
 import org.silo.vista.utilerias.PanelBitacora;
+import org.silo.vista.utilerias.PanelRespaldo;
 
 public class VistaPrincipal extends JFrame {
 
@@ -41,10 +42,11 @@ public class VistaPrincipal extends JFrame {
     //Ventanas de Procesos
     private MyInternalFrame venta;
 
-    
     //Ventana de bitacoras
     private MyInternalFrame bitacora;
-    
+    private MyInternalFrame respaldo;
+    private MyInternalFrame restauracion;
+
     private JDesktopPane jDesktopPane;
     private LoggingForm loggingForm;
 
@@ -102,13 +104,17 @@ public class VistaPrincipal extends JFrame {
         jDesktopPane.add(venta = new MyInternalFrame(
                 "Venta", new PanelVenta()));
     }
-    
-    public void initBitacoras(){
+
+    public void initBitacoras() {
         jDesktopPane.add(bitacora = new MyInternalFrame(
                 "Bitácoras por tabla", new PanelBitacora()));
+        jDesktopPane.add(respaldo = new MyInternalFrame(
+                "Creación de archivos de respaldo", new PanelRespaldo()));
+        jDesktopPane.add(restauracion = new MyInternalFrame(
+                "Restauración de datos", new PanelRespaldo()));
     }
 
-    public LoggingForm getLoggingForm() { 
+    public LoggingForm getLoggingForm() {
         return loggingForm;
     }
 
@@ -163,6 +169,15 @@ public class VistaPrincipal extends JFrame {
     public MyInternalFrame getBitacora() {
         return bitacora;
     }
+
+    public MyInternalFrame getRespaldo() {
+        return respaldo;
+    }
+
+    public MyInternalFrame getRestauracion() {
+        return restauracion;
+    }
+    
     /**
      * @param args the command line arguments
      */

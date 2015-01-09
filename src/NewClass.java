@@ -21,7 +21,7 @@ public class NewClass {
         baseCmds.add("postgres");
         baseCmds.add("-b");
         baseCmds.add("-v");
-        baseCmds.add("-f");
+        baseCmds.add("-F=p");
         baseCmds.add("C:\\Users\\Vrebo\\Documents\\Backup.sql");
         baseCmds.add("SILO");
         final ProcessBuilder pb = new ProcessBuilder(baseCmds);

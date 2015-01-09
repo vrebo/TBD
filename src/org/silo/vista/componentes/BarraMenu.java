@@ -43,9 +43,10 @@ public class BarraMenu extends JMenuBar {
     };
     
     private final JMenuItem[] itemsMenuUtileria = {
-        new JMenuItem("Respaldo y Restauración"),
-        new JMenuItem("Bitacoras"),
-        new JMenuItem("Alta de usuarios en SILO")
+        new JMenuItem("Respaldo"),
+        new JMenuItem("Restauración"),
+        new JMenuItem("Bitacoras")
+//        new JMenuItem("Alta de usuarios en SILO")
     };
 
     private final String[] accionesItemsSesion = {
@@ -77,7 +78,8 @@ public class BarraMenu extends JMenuBar {
     };
     
         private final String[] accionesItemsUtileria = {
-        "MuestraRespaldoRestauración",
+        "MuestraRespaldo",
+        "MuestraRestauracion",
         "MuestraBitacoras",
         "MuestraAltaUsuarios",
         "MuestraReporteCopias",
