@@ -96,6 +96,7 @@ public class LoggingForm extends javax.swing.JPanel {
                 VistaPrincipal vista = (VistaPrincipal) contenedor;
                 vista.initCatalogos();
                 vista.initReportes();
+                vista.initProcesos();
                 vista.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 vista.getJMenuBar().setVisible(true);
                 vista.setContentPane(vista.getjDesktopPane1());

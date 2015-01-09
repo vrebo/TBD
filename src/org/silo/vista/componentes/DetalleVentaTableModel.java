@@ -8,7 +8,6 @@ public class DetalleVentaTableModel extends MyTableModel<CopiaPelicula>{
     columnNames = new String[]{
             "Código",
             "Título",
-            "Estado",
             "Formato",
             "Precio"
         };
@@ -22,8 +21,6 @@ public class DetalleVentaTableModel extends MyTableModel<CopiaPelicula>{
             case 1:
                 return data.get(rowIndex).getPelicula().getTitulo();
             case 2:
-                return data.get(rowIndex).getEstado();
-            case 3:
                 return data.get(rowIndex).getFormato();
             default:
                 return data.get(rowIndex).getPrecio();

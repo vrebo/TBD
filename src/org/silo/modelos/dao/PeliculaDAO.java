@@ -67,7 +67,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula, Long> {
             result = true;
         } catch (SQLException ex) {
             Logger.getLogger(PeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException("Error al almacenar datos en la base de datos.", ex);
+            throw new RuntimeException("Error al almacenar datos en la base de datos.\n" + ex.getCause(), ex);
         }
         return result;
     }

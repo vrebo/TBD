@@ -15,6 +15,7 @@ public abstract class MyTableModel<E> extends AbstractTableModel {
 
     public void setData(List<E> data) {
         this.data = data;
+        System.out.println("nuevos datos en el modelo de la tabla");
         fireTableDataChanged();
     }
 

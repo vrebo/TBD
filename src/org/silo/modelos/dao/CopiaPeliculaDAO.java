@@ -114,6 +114,32 @@ public class CopiaPeliculaDAO extends GenericDAO<CopiaPelicula, Long> {
         return lista;
     }
 
+    public List<CopiaPelicula> buscarTodosDisponibles() {
+        Connection con = DataBaseHelper.getConexion();
+        ArrayList<CopiaPelicula> lista = new ArrayList<>();
+        String statement
+               = "SELECT * FROM " + nombreTabla + " WHERE " + estadoDAO + " = 'EN-STOCK';";
+
+        try (PreparedStatement ps = con.prepareStatement(statement)) {
+            con.setAutoCommit(false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                CopiaPelicula copia = extraeResultado(rs);
+                PeliculaDAO peliculaDAO = new PeliculaDAO();
+                Pelicula pelicula = peliculaDAO.buscarPorId(copia.getPelicula().getIdPelicula(), con);
+                copia.setPelicula(pelicula);
+                lista.add(copia);
+            }
+            con.commit();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(CopiaPeliculaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Error al extraer datos de la base de datos.", ex);
+        }
+        return lista;
+    }
+
     @Override
     public CopiaPelicula buscarPorId(Long id, Connection con) {
         CopiaPelicula e = null;

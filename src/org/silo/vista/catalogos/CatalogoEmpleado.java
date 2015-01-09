@@ -18,7 +18,10 @@ public class CatalogoEmpleado extends Catalogo {
     private void installListeners() {
         searchToolBar.getSaveEntity().addActionListener((ActionEvent e) -> {
             if (isEditando()) {
-                ServiciosSILO.getServicios().actualizaEmpleado((Empleado) ((Form) form).getData());
+                Empleado empleado = (Empleado) ((Form) form).getData();
+                if(empleado != null){
+                    ServiciosSILO.getServicios().actualizaEmpleado(empleado);
+                }
             } else {
                 ServiciosSILO.getServicios().altaEmpleado((Empleado) ((Form) form).getData());
                 setEditando(true);

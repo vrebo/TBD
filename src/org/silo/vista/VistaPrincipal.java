@@ -14,11 +14,13 @@ import org.silo.vista.catalogos.CatalogoPelicula;
 import org.silo.vista.componentes.BarraMenu;
 import org.silo.vista.componentes.MyInternalFrame;
 import org.silo.vista.login.LoggingForm;
+import org.silo.vista.procesos.PanelVenta;
 import org.silo.vista.reportes.GeneradorReporteClientes;
 import org.silo.vista.reportes.GeneradorReporteCopias;
 import org.silo.vista.reportes.GeneradorReporteEmpleados;
 import org.silo.vista.reportes.GeneradorReportePeliculas;
 import org.silo.vista.reportes.GeneradorReporteVentas;
+import org.silo.vista.reportes.PanelPeliculas;
 
 public class VistaPrincipal extends JFrame {
 
@@ -37,9 +39,8 @@ public class VistaPrincipal extends JFrame {
     private MyInternalFrame reporteCopias;
 
     //Ventanas de Procesos
-//    private VentaCatalogo ventaCatalogo;
-//    private VentaFrame ventaFrame;
-    
+    private MyInternalFrame venta;
+
     private JDesktopPane jDesktopPane;
     private LoggingForm loggingForm;
 
@@ -53,7 +54,6 @@ public class VistaPrincipal extends JFrame {
 
 //        ventaCatalogo = new VentaCatalogo();
 //        ventaFrame = new VentaFrame();
-        
         setJMenuBar(new BarraMenu(this));
         setContentPane(loggingForm);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -70,15 +70,15 @@ public class VistaPrincipal extends JFrame {
 
     public void initCatalogos() {
         jDesktopPane.add(catalogoCliente
-                          = new MyInternalFrame("Catálogo de clientes", new CatalogoCliente()));
+                         = new MyInternalFrame("Catálogo de clientes", new CatalogoCliente()));
         jDesktopPane.add(catalogoEmpleado
-                          = new MyInternalFrame("Catálogo de empleados", new CatalogoEmpleado()));
+                         = new MyInternalFrame("Catálogo de empleados", new CatalogoEmpleado()));
         jDesktopPane.add(catalogoGenero
-                          = new MyInternalFrame("Catálogo de géneros", new CatalogoGenero()));
+                         = new MyInternalFrame("Catálogo de géneros", new CatalogoGenero()));
         jDesktopPane.add(catalogoPelicula
-                          = new MyInternalFrame("Catálogo de películas", new CatalogoPelicula()));
+                         = new MyInternalFrame("Catálogo de películas", new CatalogoPelicula()));
         jDesktopPane.add(catalogoCopia
-                          = new MyInternalFrame("Catálogo de copias", new CatalogoCopia()));
+                         = new MyInternalFrame("Catálogo de copias", new CatalogoCopia()));
     }
 
     public void initReportes() {
@@ -92,6 +92,11 @@ public class VistaPrincipal extends JFrame {
                 "Generador de reportes de películas", new GeneradorReportePeliculas()));
         jDesktopPane.add(reporteCopias = new MyInternalFrame(
                 "Generador de reportes de copias", new GeneradorReporteCopias()));
+    }
+
+    public void initProcesos() {
+        jDesktopPane.add(venta = new MyInternalFrame(
+                "Venta", new PanelVenta()));
     }
 
     public LoggingForm getLoggingForm() {
@@ -140,6 +145,10 @@ public class VistaPrincipal extends JFrame {
 
     public MyInternalFrame getReporteCopias() {
         return reporteCopias;
+    }
+
+    public MyInternalFrame getVenta() {
+        return venta;
     }
 
     /**

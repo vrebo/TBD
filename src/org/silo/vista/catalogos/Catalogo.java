@@ -56,7 +56,7 @@ public abstract class Catalogo extends JPanel {
         RowFilter<MyTableModel, Object> rf;
         //If current expression doesn't parse, don't update.
         try {
-            rf = RowFilter.regexFilter(searchToolBar.getSearchField().getText());
+            rf = RowFilter.regexFilter("(?i)" + searchToolBar.getSearchField().getText());
         } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }

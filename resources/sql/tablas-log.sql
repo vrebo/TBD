@@ -2,28 +2,18 @@
 
 CREATE TABLE cliente_log
 (
-  cliente_log_operation text NOT NULL,
-  
-cliente_log_stamp timestamp without time zone NOT NULL,
-  
-cliente_log_userid text NOT NULL,
-  
-cliente_log_cliente_id text NOT NULL,
-  
-cliente_log_cliente_nombre text NOT NULL,
-  
-cliente_log_cliente_appater text NOT NULL,
-  
-cliente_log_cliente_apmater text NOT NULL,
-  
-cliente_log_cliente_fecharegistro date NOT NULL,
-  
-cliente_log_cliente_fechanacimiento date NOT NULL,
-  
-cliente_log_cliente_imagen bytea NOT NULL
-)
-
-WITH (
+    cliente_log_operation text NOT NULL,
+    cliente_log_stamp timestamp without time zone NOT NULL,  
+    cliente_log_userid text NOT NULL,
+    cliente_log_cliente_id text NOT NULL,
+    cliente_log_cliente_nombre text NOT NULL,  
+    cliente_log_cliente_appater text NOT NULL,
+    cliente_log_cliente_apmater text NOT NULL,
+    cliente_log_cliente_fecharegistro date NOT NULL,
+    cliente_log_cliente_fechanacimiento date NOT NULL,
+    cliente_log_cliente_imagen bytea NOT NULL,
+    cliente_log_cliente_imagen_nombre text NOT NULL
+)WITH (
   OIDS=FALSE
 );
 
@@ -32,15 +22,15 @@ ALTER TABLE cliente_log
 
 CREATE TABLE copia_pelicula_log
 (
-  copia_pelicula_log_operation text NOT NULL,
-  copia_pelicula_log_stamp timestamp without time zone NOT NULL,
-  coipa_pelicula_log_userid text NOT NULL,
-  coipa_pelicula_log_copia_id bigserial NOT NULL,
-  coipa_pelicula_log_copia_fmto copia_formato NOT NULL,
-  coipa_pelicula_log_copia_fechaadquisicion date NOT NULL,
-  coipa_pelicula_log_copia_precio double precision NOT NULL,
-  coipa_pelicula_log_copia_edo copia_estado NOT NULL,
-  coipa_pelicula_log_pelicula_id bigserial NOT NULL
+    copia_pelicula_log_operation text NOT NULL,
+    copia_pelicula_log_stamp timestamp without time zone NOT NULL,
+    copia_pelicula_log_userid text NOT NULL,
+    copia_pelicula_log_copia_id bigserial NOT NULL,
+    copia_pelicula_log_copia_fmto copia_formato NOT NULL,
+    copia_pelicula_log_copia_fechaadquisicion date NOT NULL,
+    copia_pelicula_log_copia_precio double precision NOT NULL,
+    copia_pelicula_log_copia_edo copia_estado NOT NULL,
+    copia_pelicula_log_pelicula_id bigserial NOT NULL
 )
 WITH (
   OIDS=FALSE
@@ -68,25 +58,27 @@ ALTER TABLE detalle_venta_log
 
 CREATE TABLE empleado_log
 (
-  empleado_log_operation text NOT NULL,
-  empleado_log_stamp timestamp without time zone NOT NULL,
-  empleado_log_userid text NOT NULL,
-  empleado_log_empleado_id text NOT NULL,
-  empleado_log_empleado_nombre text NOT NULL,
-  empleado_log_empleado_appater text NOT NULL,
-  empleado_log_empleado_apmater text NOT NULL,
-  empleado_log_empleado_horaentrada time without time zone NOT NULL,
-  empleado_log_empleado_horasalida time without time zone NOT NULL,
-  empleado_log_empleado_fechanacimiento date NOT NULL,
-  empleado_log_empleado_fecharegistro date NOT NULL,
-  empleado_log_empleado_edo empleado_estado NOT NULL,
-  empleado_log_empleado_puesto empleado_puesto NOT NULL,
-  empleado_log_empleado_sueldo double precision NOT NULL,
-  empleado_log_empleado_imagen bytea NOT NULL
+    empleado_log_operation text NOT NULL,
+    empleado_log_stamp timestamp without time zone NOT NULL,
+    empleado_log_userid text NOT NULL,
+    empleado_log_empleado_id text NOT NULL,
+    empleado_log_empleado_nombre text NOT NULL,
+    empleado_log_empleado_appater text NOT NULL,
+    empleado_log_empleado_apmater text NOT NULL,
+    empleado_log_empleado_horaentrada time without time zone NOT NULL,
+    empleado_log_empleado_horasalida time without time zone NOT NULL,
+    empleado_log_empleado_fechanacimiento date NOT NULL,
+    empleado_log_empleado_fecharegistro date NOT NULL,
+    empleado_log_empleado_edo empleado_estado NOT NULL,
+    empleado_log_empleado_puesto empleado_puesto NOT NULL,
+    empleado_log_empleado_sueldo double precision NOT NULL,
+    empleado_log_empleado_imagen bytea NOT NULL,
+    empleado_log_empleado_imagen_nombre text NOT NULL
 )
 WITH (
   OIDS=FALSE
 );
+
 ALTER TABLE empleado_log
   OWNER TO postgres;
 
@@ -99,8 +91,7 @@ CREATE TABLE genero_log
   genero_log_genero_id bigserial NOT NULL,
   genero_log_genero_nombre text NOT NULL,
   genero_log_genero_descripcion text
-)
-WITH (
+)WITH (
   OIDS=FALSE
 );
 ALTER TABLE genero_log
@@ -120,7 +111,8 @@ CREATE TABLE pelicula_log
   pelicula_log_pelicula_duracion interval minute NOT NULL,
   pelicula_log_pelicula_clasif pelicula_clasificacion NOT NULL,
   pelicula_log_genero_id bigserial NOT NULL,
-  pelicula_log_pelicula_portada bytea NOT NULL
+  pelicula_log_pelicula_portada bytea NOT NULL,
+    pelicula_log_pelicula_portada_nombre text NOT NULL
 )
 WITH (
   OIDS=FALSE

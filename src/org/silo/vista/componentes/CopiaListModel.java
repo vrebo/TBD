@@ -15,23 +15,45 @@ import org.silo.modelos.bo.CopiaPelicula;
  */
 public class CopiaListModel extends AbstractListModel<CopiaPelicula> {
 
-    private List<CopiaPelicula> data = new java.util.ArrayList<>();
+    private List<CopiaPelicula> data;
 
-    public CopiaListModel(){}
-    
+    public CopiaListModel() {
+        data = new java.util.ArrayList<>();
+    }
+
+    public CopiaListModel(List<CopiaPelicula> data) {
+        this.data = data;
+    }
+
     @Override
     public int getSize() {
-        return data.size();
+        return (data == null) ? 0 : data.size();
     }
 
     @Override
     public CopiaPelicula getElementAt(int index) {
         return data.get(index);
     }
-    
-    public void setData(List<CopiaPelicula> data){
+
+    public void setData(List<CopiaPelicula> data) {
         this.data = data;
-//        fireContentsChanged(data, index0, index1);
+        fireContentsChanged(this, 0, data.size());
+    }
+
+    public void addElements(List<CopiaPelicula> data) {
+        data.stream().forEach((data1) -> {
+            addElement(data1);
+        });
+    }
+
+    public void addElement(CopiaPelicula e) {
+        data.add(e);
+        fireContentsChanged(this, 0, data.size());
+    }
+    
+    public void remove(CopiaPelicula e){
+        data.remove(e);
+        fireContentsChanged(this, 0, data.size());
     }
 
 }

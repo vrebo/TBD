@@ -104,4 +104,10 @@ public class CopiaPelicula {
     public boolean isAvailable() {
         return estado.equals("EN-STOCK");
     }
+
+    @Override
+    public String toString() {
+        return idCopiaPelicula + " - " + pelicula.getTitulo()
+               + " - Adquirido: " + fechaAdquisicion + " - Sueldo: $" + precio + " - Estado: " + estado;
+    }
 }

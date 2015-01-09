@@ -1,13 +1,14 @@
 package org.silo.modelos.bo;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Venta {
 
     private long idVenta;
     private Cliente cliente;
     private Empleado empleado;
-    private String fechaVenta;
+    private Date fechaVenta;
     private double netoVenta;
     private final ArrayList<CopiaPelicula> detalleVenta;
 
@@ -15,18 +16,18 @@ public class Venta {
         detalleVenta = new ArrayList<>();
     }
 
-    public Venta(long idVenta, Cliente cliente, Empleado empleado, String fechaVenta, double netoVenta) {
+    public Venta(long idVenta, Cliente cliente, Empleado empleado, Date fechaVenta, double netoVenta) {
         this(cliente, empleado, fechaVenta);
         this.idVenta = idVenta;
         this.netoVenta = netoVenta;
     }
 
-    public Venta(long idVenta, Cliente cliente, Empleado empleado, String fechaVenta) {
+    public Venta(long idVenta, Cliente cliente, Empleado empleado, Date fechaVenta) {
         this(cliente, empleado, fechaVenta);
         this.idVenta = idVenta;
     }
 
-    public Venta(Cliente cliente, Empleado empleado, String fechaVenta) {
+    public Venta(Cliente cliente, Empleado empleado, Date fechaVenta) {
         this.cliente = cliente;
         this.empleado = empleado;
         this.fechaVenta = fechaVenta;
@@ -42,11 +43,11 @@ public class Venta {
         this.idVenta = idVenta;
     }
 
-    public String getFechaVenta() {
+    public Date getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(String fechaVenta) {
+    public void setFechaVenta(Date fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 

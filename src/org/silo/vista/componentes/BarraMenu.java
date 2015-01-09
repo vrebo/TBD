@@ -30,8 +30,7 @@ public class BarraMenu extends JMenuBar {
     };
 
     private final JMenuItem[] itemsMenuProcesos = {
-        new JMenuItem("Registro de venta"),
-        new JMenuItem("Cambio de película")
+        new JMenuItem("Registro de venta")        
     };    
 
     private final JMenuItem[] itemsMenuReporte = {

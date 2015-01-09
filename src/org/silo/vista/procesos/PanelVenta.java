@@ -5,9 +5,16 @@
  */
 package org.silo.vista.procesos;
 
-import javax.swing.ListModel;
+import javax.swing.ImageIcon;
+import org.silo.modelos.bo.Cliente;
+import org.silo.modelos.bo.CopiaPelicula;
+import org.silo.modelos.bo.Empleado;
+import org.silo.modelos.bo.Venta;
+import org.silo.modelos.servicios.ServiciosSILO;
 import org.silo.vista.componentes.CopiaListModel;
+import org.silo.vista.componentes.DetalleVentaTableModel;
 import org.silo.vista.componentes.FilteredListModel;
+import org.silo.vista.componentes.MyTableModel;
 
 /**
  *
@@ -15,11 +22,22 @@ import org.silo.vista.componentes.FilteredListModel;
  */
 public class PanelVenta extends javax.swing.JPanel {
 
+    private Venta venta;
+    private CopiaPelicula copiaActual;
+    private FilteredListModel filteredListModel;
+    private MyTableModel modeloDetalleVenta;
+    private CopiaListModel peliculasDisponibles;
+    private boolean ventaValida = false, clienteValido = false;
+
     /**
      * Creates new form PanelVenta
      */
     public PanelVenta() {
         initComponents();
+        venta = new Venta();
+        System.out.println("Panel de venta creandose");
+        _initComponents();
+        updateDatosCopia();
     }
 
     /**
@@ -52,7 +70,7 @@ public class PanelVenta extends javax.swing.JPanel {
         cliente = new org.jdesktop.swingx.JXTextField();
         empleado = new org.jdesktop.swingx.JXTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        fechaRegistro = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new org.jdesktop.swingx.JXTable();
@@ -65,10 +83,11 @@ public class PanelVenta extends javax.swing.JPanel {
         montoPago = new javax.swing.JTextField();
         recibido = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
+        idCliente = new org.jdesktop.swingx.JXTextField();
 
         setLayout(new java.awt.BorderLayout());
 
-        jSplitPane1.setDividerLocation(350);
+        jSplitPane1.setDividerLocation(405);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Búsqueda de copias"));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -84,22 +103,32 @@ public class PanelVenta extends javax.swing.JPanel {
             .addGap(0, 130, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jXImageView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 140, 130));
+        jPanel1.add(jXImageView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 140, 130));
 
         jLabel11.setText("Código:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 40, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 50, -1));
 
         jLabel12.setText("Título:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 40, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 50, -1));
 
         jLabel13.setText("Precio:");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 40, -1));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 50, -1));
 
         searchField.setPrompt("Buscar");
-        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 110, -1));
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchField, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 160, -1));
 
         btnAgregar.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         btnAgregar.setText("<");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         lista.setModel(new javax.swing.AbstractListModel() {
@@ -107,18 +136,25 @@ public class PanelVenta extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        lista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(lista);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 180, 90));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 90));
 
-        idCopia.setText("jLabel7");
-        jPanel1.add(idCopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
+        idCopia.setText("XXX");
+        idCopia.setToolTipText("");
+        jPanel1.add(idCopia, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
 
-        titulo.setText("jLabel14");
-        jPanel1.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
+        titulo.setText("Lorem Ipsum");
+        jPanel1.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
 
-        precio.setText("jLabel15");
-        jPanel1.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, -1, -1));
+        precio.setText("0.0");
+        precio.setToolTipText("");
+        jPanel1.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
 
         jSplitPane1.setRightComponent(jPanel1);
 
@@ -132,24 +168,35 @@ public class PanelVenta extends javax.swing.JPanel {
 
         jLabel3.setText("Atiende:");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        folio.setText("Generado");
         jPanel2.add(folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 100, -1));
-        jPanel2.add(cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 210, -1));
-        jPanel2.add(empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 210, -1));
+
+        cliente.setPrompt("Nombre ");
+        jPanel2.add(cliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, -1));
+
+        empleado.setText("E1420254554140 Sheldon Cooper QQ");
+        jPanel2.add(empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 310, -1));
 
         jLabel4.setText("Fecha:");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
-        jLabel5.setText("dd/MM/yyyy");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        fechaRegistro.setText("dd/MM/yyyy");
+        jPanel2.add(fechaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
 
         jLabel6.setText("Detalle venta");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
 
         jScrollPane1.setViewportView(tabla);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 147, 330, 120));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 340, 120));
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
 
         jButton2.setText("Realizar venta");
@@ -168,10 +215,24 @@ public class PanelVenta extends javax.swing.JPanel {
 
         jLabel10.setText("Cambio:");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, 70, -1));
-        jPanel2.add(cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 340, 80, -1));
-        jPanel2.add(montoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, 80, -1));
-        jPanel2.add(recibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 310, 80, -1));
+        jPanel2.add(cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, 80, -1));
+        jPanel2.add(montoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 80, -1));
+
+        recibido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recibidoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(recibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 80, -1));
         jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 350, 10));
+
+        idCliente.setPrompt("ID");
+        idCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idClienteActionPerformed(evt);
+            }
+        });
+        jPanel2.add(idCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 130, -1));
 
         jSplitPane1.setLeftComponent(jPanel2);
 
@@ -180,7 +241,74 @@ public class PanelVenta extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if (ventaValida && clienteValido) {
+            venta.setFechaVenta(new java.util.Date());
+            ServiciosSILO.getServicios().altaVenta(venta);
+//            System.out.println("Venta");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        filteredListModel.setFilter((Object element)
+                -> element.toString().toLowerCase()
+                .contains(searchField.getText().toLowerCase()));
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (peliculasDisponibles.getSize() != 0) {
+            peliculasDisponibles.remove(copiaActual);
+            venta.getDetalleVenta().add(copiaActual);
+            modeloDetalleVenta.setData(venta.getDetalleVenta());
+            venta.calculaNetoVenta();
+            montoPago.setText(Double.toString(venta.getNetoVenta()));
+            repaint();
+            copiaActual = null;
+            updateDatosCopia();
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+        Object o = lista.getSelectedValue();
+        if (o instanceof CopiaPelicula) {
+            copiaActual = (CopiaPelicula) o;
+            updateDatosCopia();
+        }
+    }//GEN-LAST:event_listaMouseClicked
+
+    private void recibidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recibidoActionPerformed
+        // TODO add your handling code here:
+        double rCambio = venta.getNetoVenta();
+        double pago = Double.parseDouble(recibido.getText());
+        rCambio = pago - rCambio;
+        if (ventaValida = rCambio >= 0) {
+            cambio.setText(rCambio + "");
+        }
+    }//GEN-LAST:event_recibidoActionPerformed
+
+    private void idClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idClienteActionPerformed
+        // TODO add your handling code here:
+        String id = idCliente.getText();
+        if (!id.isEmpty()) {
+            Cliente c = ServiciosSILO.getServicios().buscaClientePorID(id);
+            cliente.setText(c.getNombreCompleto());
+            venta.setCliente(c);
+            Empleado e = new Empleado();
+            e.setIdEmpleado("E1420254554140");
+            venta.setEmpleado(e);
+            clienteValido = true;
+        }
+    }//GEN-LAST:event_idClienteActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int row = tabla.getSelectedRow();
+        CopiaPelicula copia = venta.getDetalleVenta().get(row);
+        modeloDetalleVenta.remove(row);
+        venta.calculaNetoVenta();
+        peliculasDisponibles.addElement(copia);
+        montoPago.setText(Double.toString(venta.getNetoVenta()));
+        repaint();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -189,7 +317,9 @@ public class PanelVenta extends javax.swing.JPanel {
     private javax.swing.JTextField cambio;
     private org.jdesktop.swingx.JXTextField cliente;
     private org.jdesktop.swingx.JXTextField empleado;
+    private javax.swing.JLabel fechaRegistro;
     private org.jdesktop.swingx.JXTextField folio;
+    private org.jdesktop.swingx.JXTextField idCliente;
     private javax.swing.JLabel idCopia;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -200,7 +330,6 @@ public class PanelVenta extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -219,12 +348,42 @@ public class PanelVenta extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXTable tabla;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
-    
-    private void _initComponents(){
-        ListModel source = new CopiaListModel();
-        
-        FilteredListModel filteredModel = new FilteredListModel(null);
-        lista.setModel(null);
+
+    private void _initComponents() {
+        //FIX
+        fechaRegistro.setText(new java.util.Date().toString());
+        initListaCopias();
+        (modeloDetalleVenta = new DetalleVentaTableModel()).setData(venta.getDetalleVenta());
+        tabla.setModel(modeloDetalleVenta);
+    }
+
+    private void updateDatosCopia() {
+        if (copiaActual != null) {
+            idCopia.setText(Long.toString(copiaActual.getIdCopiaPelicula()));
+            titulo.setText(copiaActual.getPelicula().getTitulo());
+            precio.setText("$" + copiaActual.getPrecio());
+            jXImageView1.setImage(copiaActual.getPelicula().getImagen().getImagen().getImage());
+        } else {
+            idCopia.setText("XXXX");
+            titulo.setText("Lorem ipsum");
+            precio.setText("$ 0.0");
+            jXImageView1.setImage(new ImageIcon("resources/images/Silo3-ico2.png").getImage());
+        }
+    }
+
+    private void initListaCopias() {
+        (peliculasDisponibles = new CopiaListModel()).
+                setData(ServiciosSILO.getServicios().copiasDisponibles());
+        filteredListModel = new FilteredListModel(peliculasDisponibles);
+        lista.setModel(filteredListModel);
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
 }

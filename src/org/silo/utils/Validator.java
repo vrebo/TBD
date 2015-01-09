@@ -46,7 +46,7 @@ public class Validator {
     }
     
     public static void checkForPositive(double value, String message) {
-        if (value < 1) {
+        if (value < 0) {
             throw new IllegalArgumentException(message);
         }
     }

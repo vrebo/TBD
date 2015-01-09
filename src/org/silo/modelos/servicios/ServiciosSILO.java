@@ -6,11 +6,13 @@ import org.silo.modelos.bo.CopiaPelicula;
 import org.silo.modelos.bo.Empleado;
 import org.silo.modelos.bo.Genero;
 import org.silo.modelos.bo.Pelicula;
+import org.silo.modelos.bo.Venta;
 import org.silo.modelos.dao.ClienteDAO;
 import org.silo.modelos.dao.CopiaPeliculaDAO;
 import org.silo.modelos.dao.EmpleadoDAO;
 import org.silo.modelos.dao.GeneroDAO;
 import org.silo.modelos.dao.PeliculaDAO;
+import org.silo.modelos.dao.VentaDAO;
 
 public class ServiciosSILO {
 
@@ -25,7 +27,7 @@ public class ServiciosSILO {
     private EmpleadoDAO empleadoDAO;
     private ClienteDAO clienteDAO;
     private CopiaPeliculaDAO copiaDAO;
-//    private VentaDAO ventaDAO;
+    private VentaDAO ventaDAO;
 
     public ServiciosSILO() {
         peliculaDAO = new PeliculaDAO();
@@ -33,7 +35,7 @@ public class ServiciosSILO {
         empleadoDAO = new EmpleadoDAO();
         clienteDAO = new ClienteDAO();
         copiaDAO = new CopiaPeliculaDAO();
-//        ventaDAO = new VentaDAO();
+        ventaDAO = new VentaDAO();
     }
 
     public List<Pelicula> catalogoPeliculas() {
@@ -55,11 +57,15 @@ public class ServiciosSILO {
     public List<CopiaPelicula> catalogoCopias() {
         return copiaDAO.buscarTodosCommit();
     }
+    
+    public List<CopiaPelicula> copiasDisponibles() {
+        return copiaDAO.buscarTodosDisponibles();
+    }
 
-//    public List<Venta> catalogoVentas() {
-//        return ventaDAO.buscarTodosCommit();
-//    }
-//
+    public List<Venta> catalogoVentas() {
+        return ventaDAO.buscarTodosCommit();
+    }
+
     public boolean altaEmpleado(Empleado e) {
         return empleadoDAO.persistirCommit(e);
     }
@@ -80,10 +86,10 @@ public class ServiciosSILO {
         return copiaDAO.persistirCommit(e);
     }
 
-//    public boolean altaVenta(Venta e) {
-//        return ventaDAO.persistirCommit(e);
-//    }
-//
+    public boolean altaVenta(Venta e) {
+        return ventaDAO.persistirCommit(e);
+    }
+
     public void actualizaEmpleado(Empleado e) {
         empleadoDAO.actualizarCommit(e);
     }
@@ -104,9 +110,10 @@ public class ServiciosSILO {
         copiaDAO.actualizarCommit(e);
     }
 
-//    public void actualizaVenta(Venta e) {
-//        ventaDAO.actualizarCommit(e);
-//    }
+    public void actualizaVenta(Venta e) {
+        ventaDAO.actualizarCommit(e);
+    }
+    
     public boolean eliminaCliente(Cliente e) {
         return clienteDAO.eliminarCommit(e);
     }
@@ -127,6 +134,10 @@ public class ServiciosSILO {
         return copiaDAO.eliminarCommit(e);
     }
 
+    public boolean eliminaVenta(Venta e) {
+        return ventaDAO.eliminarCommit(e);
+    }
+    
     public Cliente buscaClientePorID(String id) {
         return clienteDAO.buscarPorIdCommit(id);
     }

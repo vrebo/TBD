@@ -393,7 +393,7 @@ public class DataBaseHelper {
             result += rs.getString(2) + "&";
             result += rs.getString(3);
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage() + "puto2");
+            System.out.println(ex.getMessage() + "****");
             ex.printStackTrace();
         }
         return result;

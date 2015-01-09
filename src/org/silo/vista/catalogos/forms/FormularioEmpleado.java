@@ -6,6 +6,7 @@
 package org.silo.vista.catalogos.forms;
 
 import java.util.Date;
+import javax.swing.JOptionPane;
 import org.silo.modelos.bo.Empleado;
 
 /**
@@ -139,24 +140,30 @@ public class FormularioEmpleado extends javax.swing.JPanel implements Form<Emple
     // End of variables declaration//GEN-END:variables
 
     private Empleado data = new Empleado();
-    
+
     @Override
     public Empleado getData() {
         data.setIdEmpleado(id.getText());
         data.setNombre(nombre.getText());
         data.setApellidoPaterno(apPaterno.getText());
         data.setApellidoMaterno(apMaterno.getText());
-        data.setPuesto((String)puesto.getSelectedItem());
-        data.setSueldo(Double.parseDouble(sueldo.getText()));
-        data.setEstado((String)estado.getSelectedItem());
-        data.setHoraEntrada((Date)hEntrada.getValue());
-        data.setHoraSalida((Date)hSalida.getValue());
-        data.setFechaNacimiento((Date)fechaNacimiento.getValue());
-        data.setFechaRegistro((Date)fechaRegistro.getValue());
+        data.setPuesto((String) puesto.getSelectedItem());
+        if (!sueldo.getText().isEmpty()) {
+            data.setSueldo(Double.parseDouble(sueldo.getText()));
+        } else {
+            JOptionPane.showMessageDialog(
+                    this, "Llene el campo de sueldo", "Formulario incompleto", JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+        data.setEstado((String) estado.getSelectedItem());
+        data.setHoraEntrada((Date) hEntrada.getValue());
+        data.setHoraSalida((Date) hSalida.getValue());
+        data.setFechaNacimiento((Date) fechaNacimiento.getValue());
+        data.setFechaRegistro((Date) fechaRegistro.getValue());
         data.setImagen(imagePanel1.getData());
         return data;
     }
-    
+
     @Override
     public void setData(Empleado data) {
         this.data = data;
