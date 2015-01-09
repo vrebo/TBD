@@ -24,13 +24,13 @@ CREATE TABLE copia_pelicula_log
 (
     copia_pelicula_log_operation text NOT NULL,
     copia_pelicula_log_stamp timestamp without time zone NOT NULL,
-    copia_pelicula_log_userid text NOT NULL,
-    copia_pelicula_log_copia_id bigserial NOT NULL,
-    copia_pelicula_log_copia_fmto copia_formato NOT NULL,
-    copia_pelicula_log_copia_fechaadquisicion date NOT NULL,
-    copia_pelicula_log_copia_precio double precision NOT NULL,
-    copia_pelicula_log_copia_edo copia_estado NOT NULL,
-    copia_pelicula_log_pelicula_id bigserial NOT NULL
+    coipa_pelicula_log_userid text NOT NULL,
+    coipa_pelicula_log_copia_id bigserial NOT NULL,
+    coipa_pelicula_log_copia_fmto copia_formato NOT NULL,
+    coipa_pelicula_log_copia_fechaadquisicion date NOT NULL,
+    coipa_pelicula_log_copia_precio double precision NOT NULL,
+    coipa_pelicula_log_copia_edo copia_estado NOT NULL,
+    coipa_pelicula_log_pelicula_id bigserial NOT NULL
 )
 WITH (
   OIDS=FALSE
