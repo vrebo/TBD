@@ -119,7 +119,7 @@ public class PanelRespaldo extends javax.swing.JPanel {
             baseCmds.add("-b");
             baseCmds.add("-v");
             baseCmds.add("-f");
-            baseCmds.add("C:\\Users\\Vrebo\\Documents\\" + archivoRespaldo.getName());
+            baseCmds.add(archivoRespaldo.getAbsolutePath());
             baseCmds.add("SILO");
             final ProcessBuilder pb = new ProcessBuilder(baseCmds);
 
