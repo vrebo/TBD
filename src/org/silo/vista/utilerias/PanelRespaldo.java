@@ -102,6 +102,7 @@ public class PanelRespaldo extends javax.swing.JPanel {
         if (opcion == JFileChooser.APPROVE_OPTION) {
             archivoRespaldo = jf.getSelectedFile();
             jTextField1.setText(archivoRespaldo.getAbsolutePath());
+            
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
